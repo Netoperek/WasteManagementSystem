@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+    
+{% block content %}
+    <div class="page-header">
+        <h1>Routes<br>
+            <small> User's Routes are listed here</small>
+        </h1>
+    </div>
+
+    <div class="table-responsive">
+    	<table class="table table-striped">
+        	<thead>
+        		<tr>
+        			<th>#</th>
+        				<th>Do Date</th>
+        				<th>Remove Route</th>
+        				<th>Route Details</th>
+                        <th>Map</th>
+        			</tr>	
+        	</thead>
+        	<tbody>
+        	{% for route in routes %}
+        	<tr>
+        		<td>{{ route.id }}</td>
+				<td>{{ route.doDate }}</td>
+				<td>
+                    <form action="" method="POST"> 
+                        {% csrf_token %}
+                        <span class="glyphicon glyphicon-trash"></span>
+                        <input type="submit" value="Unset route#{{route.id}}" name="unset" class="btn btn-primary">
+                    </form>
+				</td>
+				<td>
+            		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Details#{{ route.id }}</a>
+				</td>
+                <td>
+                    <a href="routeOnMap{{ route.id }}" class="btn btn-primary">On Map#{{ route.id }}</a>
+                </td>
+        	</tr>
+        	{% endfor %}
+        	</tbody>
+        </table>
+    </div>
+
+{% endblock %}

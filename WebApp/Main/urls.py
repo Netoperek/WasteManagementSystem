@@ -4,7 +4,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib import admin
+from routes.api import PointResource, RouteResource
+
 admin.autodiscover()
+
+point_resource = PointResource()
+route_resource = RouteResource()
 
 urlpatterns = patterns('',
     url(r'^$', 'home.views.home', name='home'),
@@ -19,4 +24,7 @@ urlpatterns = patterns('',
 	url(r'^setRoute(?P<num>\d+)','routes.views.setRoute'),
 	url(r'^mobileUsersRoutes(?P<num>\d+)','mobileUsers.views.mobileUsersRoutes'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(point_resource.urls)),
+    url(r'^api/', include(route_resource.urls)),
+
 )

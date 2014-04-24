@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'mobileUsers',
     'map',
     'routes',
+    'tastypie'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -12,8 +12,24 @@ def mobileUsers(request):
 	if _id:
 		MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
 
+	if request.method == 'POST':
+		Id = request.POST['id']
+		Login = request.POST['Login']
+
+		if Login == None:
+			Login = r".*"
+
+		if Id:
+			mobileUsers =  MobileUser.objects.filter(pk = Id,
+													login__regex=Login)
+		else:
+			mobileUsers =  MobileUser.objects.filter(login__regex=Login)
+
+	else:
+		mobileUsers = MobileUser.objects.all()
+
 	return render_to_response("mobileUsers.html",
-								{"mobileUsers" : MobileUser.objects.all()},
+								locals(),
 								context_instance=RequestContext(request))
 
 def addMobileUser(request):

@@ -1,21 +1,47 @@
 {% extends 'base.html' %}
     
 {% block content %}
+    {% if user.is_authenticated %}
     <div class="page-header">
-        <h1>Routes<br>
-            <small> Your created routes are listed here</small>
+        <h1>Trasy<br>
+            <small> Lista stworzonych wcześniej tras</small>
         </h1>
     </div>
+
+ <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+        </div>
+        <form id="login_form" method="post" action="routes">
+    {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>#</th>
+                    <th>Data wykonania (rrrr-mm-dd)</th>
+                    <th>Szukaj</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="Id" value="" size="10" /> </td>
+                        <td><input type="text" name="Data" value="" size="10" /></td>
+                        <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </form>
+</div>
 
     <div class="table-responsive">
     	<table class="table table-striped">
         	<thead>
         		<tr>
         			<th>#</th>
-        				<th>Do Date</th>
-        				<th>Remove Route</th>
-        				<th>Route Details</th>
-                        <th>Map</th>
+        				<th>Data wykonania</th>
+        				<th>Usuń trasę</th>
+        				<th>Szczegóły trasy</th>
+                        <th>Mapa</th>
         			</tr>	
         	</thead>
         	<tbody>
@@ -41,5 +67,11 @@
         	</tbody>
         </table>
     </div>
+    {% else %}
+    <div class="page-header">
+        <h1>You have to login !<br>
+        </h1>
+    </div>
+    {% endif %}
 
 {% endblock %}

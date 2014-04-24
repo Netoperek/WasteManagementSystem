@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
     
 {% block content %}
+
+    {% if user.is_authenticated %}
     <div class="page-header">
         <h1>Routes<br>
             <small> User's Routes are listed here</small>
@@ -41,5 +43,11 @@
         	</tbody>
         </table>
     </div>
+    {% else %}
+    <div class="page-header">
+        <h1>You have to login !<br>
+        </h1>
+    </div>
+    {% endif %}
 
 {% endblock %}

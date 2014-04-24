@@ -1,21 +1,48 @@
- {% extends 'base.html' %}
+{% extends 'base.html' %}
     
 {% block content %}
+    {% if user.is_authenticated %}
     <div class="page-header">
-        <h1>Mobile Users<br>
-            <small> List of users using mobile application</small>
+        <h1>Użytkownicy aplikacji mobilnej<br>
+            <small>Lista użytkowników korzystjących z aplikacji mobilnej</small>
         </h1>
     </div>
+
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+        </div>
+        <form id="login_form" method="post" action="mobileUsers">
+    {% csrf_token %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>#</th>
+                    <th>Login</th>
+                    <th>Szukaj</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="id" value="" size="10" /> </td>
+                        <td><input type="text" name="Login" value="" size="10" /></td>
+                        <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </form>
+    </div>
+
         <div class="table-responsive">
         	<table class="table table-striped">
         		<thead>
         			<tr>
         				<th>#</th>
         				<th>Login</th>
-        				<th>Remove User</th>
-        				<th>Modify User's Data</th>
-						<th>Set User's route</th>
-                        <th>Users Routes</th>
+        				<th>Usuń użytkownika</th>
+        				<th>Modyfikuj dane użytkownika</th>
+						<th>Dodaj trasę użytkownikowi</th>
+                        <th>Trasy użytkownika</th>
         			</tr>	
         		</thead>
         		<tbody>
@@ -52,5 +79,10 @@
         		</tbody>
         	</table>
         </div>
+        {% else %}
+        <div class="page-header">
+            <h1>Musisz być zalogowany !<br></h1>
+        </div>
+        {% endif %}
     
 {% endblock %}

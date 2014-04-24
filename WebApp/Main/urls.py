@@ -26,5 +26,8 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(point_resource.urls)),
     url(r'^api/', include(route_resource.urls)),
+    url(r'^loginPage','Login.views.loginWebAppUser'),
+	url(r'^invalidLogin','Login.views.invalidLogin'),
+	url(r'^logoutPage', 'Login.views.user_logout', name='logout'),
 
 )

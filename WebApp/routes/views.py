@@ -1,6 +1,5 @@
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest
-from django.utils import simplejson
 
 from routes.models import Route
 from routes.models import Point
@@ -8,11 +7,27 @@ from mobileUsers.models import MobileUser
 # Create your views here.
 
 def routes(request):
+	context = RequestContext(request)
+
 	_id = request.POST.get("remove", "")
 	if _id:
 		Route.objects.filter(id=int(_id.split('#')[1])).delete()
 
-	routes = Route.objects.all()
+	if request.method == 'POST':
+		Id = request.POST['Id']
+		Data = request.POST['Data']
+
+		if Data == None:
+			Data = r".*"
+
+		if Id:
+			routes =  Route.objects.filter(pk = Id,
+											doDate__regex=Data)
+		else:
+			routes =  Route.objects.filter(doDate__regex=Data)
+
+	else:
+		routes = Route.objects.all()
 	return render_to_response("routes.html",
 								locals(),
 								context_instance=RequestContext(request))
@@ -41,10 +56,6 @@ def routeOnMap(request, num):
 
 	for add in adds:
 		addsList.append(str(add.values()[0]))
-
-	json_list = simplejson.dumps(latsList)
-	json_list = simplejson.dumps(lonsList)
-	json_list = simplejson.dumps(addsList)
 
 	return render_to_response("routeOnMap.html",
 								locals(),

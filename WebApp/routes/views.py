@@ -2,8 +2,9 @@ from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest
 
 from routes.models import Route
-from routes.models import Point
+from points.models import Point
 from mobileUsers.models import MobileUser
+from address.models import Address
 # Create your views here.
 
 def routes(request):
@@ -15,16 +16,16 @@ def routes(request):
 
 	if request.method == 'POST':
 		Id = request.POST['Id']
-		Data = request.POST['Data']
+		Name = request.POST['Name']
 
-		if Data == None:
-			Data = r".*"
+		if Name == None:
+			Name = r".*"
 
 		if Id:
 			routes =  Route.objects.filter(pk = Id,
-											doDate__regex=Data)
+											name__regex=Name)
 		else:
-			routes =  Route.objects.filter(doDate__regex=Data)
+			routes =  Route.objects.filter(name__regex=Name)
 
 	else:
 		routes = Route.objects.all()
@@ -34,20 +35,22 @@ def routes(request):
 
 def routeDetails(request, num):
 	routeId= num
-	points = Point.objects.filter(Route_id=num)
+	points = Point.objects.filter(route=num)
 	return render_to_response("routeDetails.html",
 								locals(),
 								context_instance=RequestContext(request))
 
 def routeOnMap(request, num):
 	routeId= num
-	lats = Point.objects.filter(Route_id=num).values('Latitude')
-	lons = Point.objects.filter(Route_id=num).values('Longitude')
-	adds = Point.objects.filter(Route_id=num).values('Address')
+	addressQuery = 'select * from address_address join points_point on (address_address.id = points_point.address_id) where points_point.route_id =' + str(routeId) +' ;'
+	lats = Point.objects.filter(route=num).values('latitude')
+	lons = Point.objects.filter(route=num).values('longitude')
+	adds = Address.objects.raw(addressQuery)
 
 	latsList = []
 	lonsList = []
 	addsList = []
+	
 	for lat in lats:
 		latsList.extend(lat.values())
 
@@ -55,22 +58,10 @@ def routeOnMap(request, num):
 		lonsList.extend(lon.values())
 
 	for add in adds:
-		addsList.append(str(add.values()[0]))
+		addsList.append(str(add.street)+' '+ str(add.number)+', '+str(add.postCode)+' '+ str(add.city))
 
 	return render_to_response("routeOnMap.html",
 								locals(),
 								context_instance=RequestContext(request))
 
-def setRoute(request, num):
-	mobileUser = MobileUser.objects.get(pk=num)
-	routes = Route.objects.all()
-	_id = request.POST.get("set", "")
-	if _id:
-		route = Route.objects.get(pk=int(_id.split('#')[1]))
-		route.mobileUser = mobileUser
-		route.save()
-		return HttpResponseRedirect('mobileUsers')
 
-	return render_to_response("setRoute.html",
-								locals(),
-								context_instance=RequestContext(request))

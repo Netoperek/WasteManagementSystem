@@ -38,8 +38,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mobileUsers',
+    'address',
+    'formulars',
     'map',
+    'mobileUsers',
+    'mobileUsersRoutes',
+    'points',
+    'reports',
     'routes',
     'tastypie'
 )

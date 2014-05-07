@@ -1,7 +1,8 @@
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
-from routes.models import Point
+from points.models import Point
 from routes.models import Route
+from address.models import Address
 # Create your views here.
 
 def newRoute(request):
@@ -18,11 +19,26 @@ def getLongitude(point):
 def getAddress(point):
 	return point.split('#')[2]
 
+def getStreet(address):
+	return address.split(' ')[1]
+
+def getNumber(address):
+	return address.split(' ')[2][:-1]
+
+def getCode(address):
+	return address.split(' ')[3][:-1]
+
+def getCity(address):
+	return address.split(' ')[4][:-1]
+
 def saveRoute(request):
 	points = request.GET.getlist('points')
 	route = Route()
 	route.save()
 	for point in points:
-		savePoint = Point(Route = route, Latitude = getLatitude(point), Longitude = getLongitude(point),Address = getAddress(point))
+		address = getAddress(point)
+		saveAddress = Address(street = getStreet(address), number = getNumber(address), postCode = getCode(address), city = getCity(address))
+		saveAddress.save()
+		savePoint = Point(route = route, address = saveAddress, longitude = getLongitude(point), latitude = getLatitude(point))
 		savePoint.save()
 	return HttpResponse('Route is Saved')

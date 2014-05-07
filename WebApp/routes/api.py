@@ -3,6 +3,7 @@ from tastypie.constants import ALL
 from tastypie import fields
 from routes.models import Point, Route
 
+
 class RouteResource(ModelResource):
 	class Meta:
 		queryset = Route.objects.all()
@@ -12,13 +13,14 @@ class RouteResource(ModelResource):
 	def alter_list_data_to_serialize(self, request, data):
 		return data['objects']
 
+
 class PointResource(ModelResource):
-	route = fields.ForeignKey(RouteResource, 'Route')
+	#route = fields.ForeignKey(RouteResource, 'Route')
 
 	class Meta:
-		queryset = Point.objects.filter(Route = '1')
+		queryset = Point.objects.filter(Route = '2')
 		resource_name = 'point'
-		filtering = {"id" : ALL, "route" : ALL}
+		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL}
 
 	def alter_list_data_to_serialize(self, request, data):
 		return data['objects']

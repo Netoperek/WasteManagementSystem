@@ -21,9 +21,9 @@
         	{% for point in points %}
         	<tr>
         		<td>{{ point.id }}</td>
-				<td>{{ point.Latitude }}</td>
-                <td>{{ point.Longitude }}</td>
-                <td>{{ point.Address }}</td>
+				<td>{{ point.latitude }}</td>
+                <td>{{ point.longitude }}</td>
+                <td>ulica {{ point.address.street }} {{ point.address.number }}, {{ point.address.postCode }} {{ point.address.city }}</td>
         	</tr>
         	{% endfor %}
         	</tbody>

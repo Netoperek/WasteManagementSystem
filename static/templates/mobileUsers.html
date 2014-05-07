@@ -58,7 +58,7 @@
                     </form>
 					</td>
 					<td>
-                    <form action="" method="POST"> 
+                    <form action="" > 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-cog"></span>
                         <input type="submit" value="Modify {{ mobileUser.login }} {{ mobileUser.id }}" name="modify" class="btn btn-primary">

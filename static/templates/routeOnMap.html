@@ -71,9 +71,9 @@
           var longs = {{lonsList|safe}} ;
           var pt;
 
-          for(var i = 0; i < adds.length; i++){
+          for(var i = 0; i < lats.length; i++){
             pt = new Point(lats[i], longs[i]);
-            addGraphic(pt, (i+1) + "# " + adds[i] );
+            addGraphic(pt, (i+1) +'# '+adds[i]);
           }
           map.centerAt(pt);
         }

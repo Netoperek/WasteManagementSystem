@@ -22,7 +22,7 @@
         margin:5px 5px 5px 0px;
       }
       #leftPane{
-        padding-left: 270px;
+        padding-left: 20%;
         width:40%;
         border-top: solid 1px #343642;
         border-left: solid 1px #343642;
@@ -31,26 +31,26 @@
         color: #343642;
         font:100% Georgia,"Times New Roman",Times,serif;
       }
-       #LocateButton {
-      position: absolute;
-      top: 95px;
-      left: 20px;
-      z-index: 50;
+      #LocateButton {
+        position: absolute;
+        top: 95px;
+        left: 20px;
+        z-index: 50;
       }
       #ClearButton {
-      position: absolute;
-      top: 140px;
-      left: 10px;
-      z-index: 50;
+        position: absolute;
+        top: 140px;
+        left: 10px;
+        z-index: 50;
       }
       #SaveButton {
-      position: absolute;
-      top: 180px;
-      left: 10px;
-      z-index: 50;
+        position: absolute;
+        top: 180px;
+        left: 10px;
+        z-index: 50;
       }
       #login{
-        padding-left: 550px;
+        padding-left: 10%;
       }
      </style>
 
@@ -117,8 +117,8 @@
           var candidate;
           var symbol = new SimpleMarkerSymbol();
           var infoTemplate = new InfoTemplate(
-            "Location", 
-            "Address: ${address}<br />Score: ${score}<br />Source locator: ${locatorName}"
+            "Lokalizacja", 
+            " ${address}"
           );
           var r = Math.floor(Math.random() * 250);
           var g = Math.floor(Math.random() * 100);
@@ -132,9 +132,7 @@
             if (candidate.score > 80) {
               console.log(candidate.location);
               var attributes = { 
-                address: candidate.address, 
-                score: candidate.score, 
-                locatorName: candidate.attributes.Loc_name 
+                address: candidate.address
               };   
               geom = candidate.location;
               x = geom.x.toFixed(5);
@@ -149,7 +147,8 @@
               map.graphics.add(graphic);
               //add a text symbol to the map listing the location of the matched address.
               address = candidate.address;
-              var displayText = counter + "# " + candidate.address;
+              //var displayText = counter + "# " + candidate.address;
+              var displayText = " #" + counter ;
               var font = new Font(
                 "10pt",
                 Font.STYLE_NORMAL, 

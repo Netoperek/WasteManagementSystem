@@ -9,26 +9,26 @@ from address.models import Address
 
 def routes(request):
 	context = RequestContext(request)
+	routes = Route.objects.all()
 
 	_id = request.POST.get("remove", "")
 	if _id:
 		Route.objects.filter(id=int(_id.split('#')[1])).delete()
 
-	if request.method == 'POST':
-		Id = request.POST['Id']
-		Name = request.POST['Name']
-
-		if Name == None:
-			Name = r".*"
-
-		if Id:
-			routes =  Route.objects.filter(pk = Id,
-											name__regex=Name)
-		else:
-			routes =  Route.objects.filter(name__regex=Name)
-
 	else:
-		routes = Route.objects.all()
+		if request.method == 'POST':
+			Id = request.POST['Id']
+			Name = request.POST['Name']
+
+			if Name == None:
+				Name = r".*"
+
+			if Id:
+				routes =  Route.objects.filter(pk = Id,
+												name__regex=Name)
+			else:
+				routes =  Route.objects.filter(name__regex=Name)
+
 	return render_to_response("routes.html",
 								locals(),
 								context_instance=RequestContext(request))

@@ -7,26 +7,28 @@ from routes.models import Route
 # Create your views here.
 
 def mobileUsers(request):
-
+	mobileUsers = MobileUser.objects.all()
+	
 	_id = request.POST.get("remove", "")
 	if _id:
 		MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
 
-	if request.method == 'POST':
-		Id = request.POST['id']
-		Login = request.POST['Login']
-
-		if Login == None:
-			Login = r".*"
-
-		if Id:
-			mobileUsers =  MobileUser.objects.filter(pk = Id,
-													login__regex=Login)
-		else:
-			mobileUsers =  MobileUser.objects.filter(login__regex=Login)
-
 	else:
-		mobileUsers = MobileUser.objects.all()
+		if request.method == 'POST':
+			Id = request.POST['id']
+			Login = request.POST['Login']
+
+			if Login == None:
+				Login = r".*"
+
+			if Id:
+				mobileUsers =  MobileUser.objects.filter(pk = Id,
+														login__regex=Login)
+			else:
+				mobileUsers =  MobileUser.objects.filter(login__regex=Login)
+
+	
+	
 
 	return render_to_response("mobileUsers.html",
 								locals(),
@@ -49,6 +51,7 @@ def mobileUsersRoutes(request, num):
 	_id = request.POST.get("unset", "")
 	if _id:
 		route = Route.objects.get(id=int(_id.split('#')[1]))
+		print route
 		route.save()
 
 	query = 'select routes_route.id, routes_route.name from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'

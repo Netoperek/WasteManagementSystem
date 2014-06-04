@@ -54,25 +54,25 @@
                     <form action="" method="POST"> 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-trash"></span>
-                        <input type="submit" value="Remove {{ mobileUser.login }} {{ mobileUser.id }}" name="remove" class="btn btn-primary">
+                        <input type="submit" value="Usuń {{ mobileUser.login }} {{ mobileUser.id }}" name="remove" class="btn btn-primary">
                     </form>
 					</td>
 					<td>
                     <form action="" > 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-cog"></span>
-                        <input type="submit" value="Modify {{ mobileUser.login }} {{ mobileUser.id }}" name="modify" class="btn btn-primary">
+                        <input type="submit" value="Modyfikuj {{ mobileUser.login }} {{ mobileUser.id }}" name="modify" class="btn btn-primary">
                     </form>
 					</td>
 					<td>
                     <form action="" method="POST"> 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-pushpin"></span>
-                        <a href="setRoute{{ mobileUser.id }}" class="btn btn-primary">Set route {{ mobileUser.login }} {{ mobileUser.id }}</a>
+                        <a href="setRoute{{ mobileUser.id }}" class="btn btn-primary">Dodaj trasę {{ mobileUser.login }} {{ mobileUser.id }}</a>
                     </form>
 					</td>
                     <td>
-                         <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">See {{ mobileUser.login }} {{ mobileUser.id }} routes</a>
+                         <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobaczy {{ mobileUser.login }}  {{ mobileUser.id }} trasy</a>
                     </td>
         		</tr>
         {% endfor %}

@@ -204,11 +204,10 @@
           $.ajax({
             type:"POST",
             url:"/saveRoute/",
-            data:{points:points},
+            data:{points:points, routeName:routeName.value},
             success:function(data){alert(data);},
             error:function(xhr,errmsg,err){alert(xhr.status + ": " + xhr.responseText);}
          });
-
           return false;
         clearGraphics();
        }
@@ -229,7 +228,7 @@
                 </li>
                 <li><a href="mobileUsers">Użytkownicy mobilni</a>
                 </li>
-                <li><a href="#">Użytkownicy webowi</a>
+                <li><a href="webAppUsers">Użytkownicy webowi</a>
                 </li>
                 <li><a href="#">Formularze</a>
                 </li>
@@ -241,7 +240,7 @@
                 </li>
                 <li><a href="addMobileUser">Dodaj użytkownika mobilnego</a>
                 </li>
-                <li><a href="#">Dodaj użytkownika webowego</a>
+                <li><a href="addWebUser">Dodaj użytkownika webowego</a>
                 </li>
             </ul>
         </div>
@@ -250,16 +249,21 @@
          data-dojo-props="design:'sidebar', gutters:false" 
          style="width:100%; height:100%;">
 
+
       <div id="leftPane"
            data-dojo-type="dijit/layout/ContentPane" 
            data-dojo-props="region:'left'">
-        Wpisz adres i naciśnij przycisk aby dodać punkt
+        <p>Wpisz adres i naciśnij przycisk aby dodać punkt</p>
         <br>
 
         <textarea type="text" id="address"/>Kraków Miechowska 5</textArea>
         <br>
-
-    <button id="locate" data-dojo-type="dijit/form/Button">Dodaj punkt</button> 
+        <br>
+        <button id="locate" data-dojo-type="dijit/form/Button">Dodaj punkt</button> 
+        <br>
+        <br>
+        <p>Wpisz nazwę trasy</p>
+        <textarea type="text" id="routeName"/></textArea>
       </div>
 
       <div id="map" 
@@ -282,7 +286,7 @@
                 </li>
                 <li><a href="mobileUsers">Użytkownicy mobilni</a>
                 </li>
-                <li><a href="#">Użytkownicy webowi</a>
+                <li><a href="webAppUsers">Użytkownicy webowi</a>
                 </li>
                 <li><a href="#">Formularze</a>
                 </li>
@@ -294,7 +298,7 @@
                 </li>
                 <li><a href="addMobileUser">Dodaj użytkownika mobilnego</a>
                 </li>
-                <li><a href="#">Dodaj użytkownika webowego</a>
+                <li><a href="addWebUser">Dodaj użytkownika webowego</a>
                 </li>
             </ul>
         </div>

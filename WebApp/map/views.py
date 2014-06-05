@@ -32,17 +32,19 @@ def getCity(address):
 	return address.split(' ')[4][:-1]
 
 def saveRoute(request):
+	points = []
 	if request.POST.has_key('points'):
 		points = request.POST.getlist('points')
-		print points
+		routeName =  request.POST.get('routeName')
+		route = Route(name = routeName)
+		route.save()
 
-	route = Route()
-	route.save()
+		for point in points:
+			address = getAddress(point)
+		 	saveAddress = Address(street = getStreet(address), number = getNumber(address), postCode = getCode(address), city = getCity(address))
+		 	saveAddress.save()
+		 	savePoint = Point(route = route, address = saveAddress, longitude = getLongitude(point), latitude = getLatitude(point))
+		 	savePoint.save()
+		return HttpResponse('Trasa zapisana')
 
-	for point in points:
-		address = getAddress(point)
-	 	saveAddress = Address(street = getStreet(address), number = getNumber(address), postCode = getCode(address), city = getCity(address))
-	 	saveAddress.save()
-	 	savePoint = Point(route = route, address = saveAddress, longitude = getLongitude(point), latitude = getLatitude(point))
-	 	savePoint.save()
-	return HttpResponse('Trasa zapisana')
+	return HttpResponse('Wybierz conajmniej jeden punkt')

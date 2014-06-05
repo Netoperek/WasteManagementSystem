@@ -13,7 +13,9 @@ route_resource = RouteResource()
 urlpatterns = patterns('',
     url(r'^$', 'home.views.home', name='home'),
 	url(r'^mobileUsers$', 'mobileUsers.views.mobileUsers', name='mobileUsers'),
+	url(r'^webAppUsers$', 'webAppUser.views.webAppUsers', name='webAppUsers'),
 	url(r'^addMobileUser$', 'mobileUsers.views.addMobileUser', name='addMobileUser'),
+	url(r'^addWebUser$', 'webAppUser.views.addWebUser', name='addWebUser'),
 	url(r'^routes$', 'routes.views.routes', name='routes'),
 	url(r'^newRoute', 'map.views.newRoute', name='newRoute'),
 	url(r'^routes', 'routes.views.routes', name='routes'),
@@ -27,5 +29,6 @@ urlpatterns = patterns('',
     url(r'^loginPage','Login.views.loginWebAppUser'),
 	url(r'^invalidLogin','Login.views.invalidLogin'),
 	url(r'^logoutPage', 'Login.views.user_logout', name='logout'),
+
 
 )

@@ -27,9 +27,6 @@ def mobileUsers(request):
 			else:
 				mobileUsers =  MobileUser.objects.filter(login__regex=Login)
 
-	
-	
-
 	return render_to_response("mobileUsers.html",
 								locals(),
 								context_instance=RequestContext(request))

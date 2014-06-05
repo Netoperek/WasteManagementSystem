@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+    
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="page-header">
+        <h1>Użytkownicy aplikacji webowej<br>
+            <small>Lista użytkowników korzystjących z aplikacji webowej</small>
+        </h1>
+    </div>
+
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+        </div>
+        <form id="username_form" method="post" action="webAppUsers">
+    {% csrf_token %}
+    <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>#</th>
+                    <th>username</th>
+                    <th>Szukaj</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="id" value="" size="10" /> </td>
+                        <td><input type="text" name="username" value="" size="10" /></td>
+                        <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </form>
+    </div>
+
+        <div class="table-responsive">
+        	<table class="table table-striped">
+        		<thead>
+        			<tr>
+        				<th>#</th>
+        				<th>Nazwa użytkownika</th>
+        				<th>Usuń użytkownika</th>
+        				<th>Modyfikuj dane użytkownika</th>
+        			</tr>	
+        		</thead>
+        		<tbody>
+        {% for webUser in webUsers %}
+        		<tr>
+        			<td>{{ webUser.id }}</td>
+					<td>{{ webUser.username }}</td>
+					<td>
+                    <form action="" method="POST"> 
+                        {% csrf_token %}
+                        <span class="glyphicon glyphicon-trash"></span>
+                        <input type="submit" value="Usuń {{ webUser.username }} {{ webUser.id }}" name="remove" class="btn btn-primary">
+                    </form>
+					</td>
+					<td>
+                    <form action="" > 
+                        {% csrf_token %}
+                        <span class="glyphicon glyphicon-cog"></span>
+                        <input type="submit" value="Modyfikuj {{ webUser.username }} {{ webUser.id }}" name="modify" class="btn btn-primary">
+                    </form>
+					</td>
+        		</tr>
+        {% endfor %}
+        		</tbody>
+        	</table>
+        </div>
+        {% else %}
+        <div class="page-header">
+            <h1>Musisz być zalogowany !<br></h1>
+        </div>
+        {% endif %}
+    
+{% endblock %}

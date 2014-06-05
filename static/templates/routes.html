@@ -39,6 +39,7 @@
         		<tr>
         			<th>#</th>
         				<th>Data wykonania</th>
+                        <th>Nazwa</th>
         				<th>Usuń trasę</th>
         				<th>Szczegóły trasy</th>
                         <th>Mapa</th>
@@ -49,6 +50,7 @@
         	<tr>
         		<td>{{ route.id }}</td>
 				<td>{{ route.doDate }}</td>
+                <td>{{ route.name }}</td>
 				<td>
                     <form action="" method="POST"> 
                         {% csrf_token %}

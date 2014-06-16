@@ -26,3 +26,11 @@ def setRoute(request, num):
 	return render_to_response("setRoute.html",
 								locals(),
 								context_instance=RequestContext(request))
+
+
+def trackMobileUser(request, num):
+	mobileUser = MobileUser.objects.get(pk=num)
+	
+	return render_to_response("trackMobileUser.html",
+								locals(),
+								context_instance=RequestContext(request))

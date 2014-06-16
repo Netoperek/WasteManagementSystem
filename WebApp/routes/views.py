@@ -5,6 +5,7 @@ from routes.models import Route
 from points.models import Point
 from mobileUsers.models import MobileUser
 from address.models import Address
+from routes.models import Route
 # Create your views here.
 
 def routes(request):
@@ -41,7 +42,10 @@ def routeDetails(request, num):
 								context_instance=RequestContext(request))
 
 def routeOnMap(request, num):
+
 	routeId= num
+	routeName = Route.objects.filter(pk=num).values('name')[0]
+
 	addressQuery = 'select * from address_address join points_point on (address_address.id = points_point.address_id) where points_point.route_id =' + str(routeId) +' ;'
 	lats = Point.objects.filter(route=num).values('latitude')
 	lons = Point.objects.filter(route=num).values('longitude')

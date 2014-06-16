@@ -43,6 +43,7 @@
         				<th>Modyfikuj dane użytkownika</th>
 						<th>Dodaj trasę użytkownikowi</th>
                         <th>Trasy użytkownika</th>
+                        <th>Śledź użytkownika</th>
         			</tr>	
         		</thead>
         		<tbody>
@@ -72,7 +73,10 @@
                     </form>
 					</td>
                     <td>
-                         <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobaczy {{ mobileUser.login }}  {{ mobileUser.id }} trasy</a>
+                         <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobacz {{ mobileUser.login }}  {{ mobileUser.id }} trasy</a>
+                    </td>
+                    <td>
+                         <a href="trackMobileUser{{ mobileUser.id }}" class="btn btn-primary">Śledź {{ mobileUser.login }}  {{ mobileUser.id }} </a>
                     </td>
         		</tr>
         {% endfor %}

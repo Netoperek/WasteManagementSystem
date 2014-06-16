@@ -7,7 +7,8 @@ class PointResource(ModelResource):
 	#route = fields.ForeignKey(RouteResource, 'Route')
 
 	class Meta:
-		queryset = Point.objects.filter(Route = '2')
+		queryset = Point.objects.filter(route = '67')
+		print queryset
 		resource_name = 'point'
 		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL}
 

@@ -5,9 +5,11 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from routes.api import RouteResource
+from points.api import PointResource
 
 admin.autodiscover()
 route_resource = RouteResource()
+point_resource = PointResource()
 
 urlpatterns = patterns('',
 
@@ -37,6 +39,7 @@ urlpatterns = patterns('',
 	#tastyPie
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(route_resource.urls)),
+    url(r'^api/', include(point_resource.urls)),
 
     #authentication
     url(r'^loginPage$','Login.views.loginWebAppUser'),

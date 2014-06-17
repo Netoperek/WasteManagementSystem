@@ -5,9 +5,13 @@ from django.conf.urls.static import static
 
 from django.contrib import admin
 from routes.api import RouteResource
+from points.api import PointResource
+from address.api import AddressResource
 
 admin.autodiscover()
 route_resource = RouteResource()
+point_resource = PointResource()
+address_resource = AddressResource()
 
 
 urlpatterns = patterns('',
@@ -24,6 +28,8 @@ urlpatterns = patterns('',
 	url(r'^mobileUsersRoutes(?P<num>\d+)','mobileUsers.views.mobileUsersRoutes'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(route_resource.urls)),
+    url(r'^api/', include(point_resource.urls)),
+    url(r'^api/', include(address_resource.urls)),
     url(r'^loginPage','Login.views.loginWebAppUser'),
 	url(r'^invalidLogin','Login.views.invalidLogin'),
 	url(r'^logoutPage', 'Login.views.user_logout', name='logout'),

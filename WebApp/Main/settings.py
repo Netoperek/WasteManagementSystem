@@ -61,7 +61,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'Main.urls'
 
 WSGI_APPLICATION = 'Main.wsgi.application'
-
+WSGIPassAuthorization = True
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

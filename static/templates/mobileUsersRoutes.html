@@ -4,8 +4,8 @@
 
     {% if user.is_authenticated %}
     <div class="page-header">
-        <h1>Routes<br>
-            <small> User's Routes are listed here</small>
+        <h1>Trasy<br>
+            <small> Wylistowane trasy użytkownika</small>
         </h1>
     </div>
 
@@ -14,10 +14,10 @@
         	<thead>
         		<tr>
         			<th>#</th>
-        				<th>Do Date</th>
-        				<th>Remove Route</th>
-        				<th>Route Details</th>
-                        <th>Map</th>
+        				<th>Data wykonania</th>
+        				<th>Usuń trase</th>
+        				<th>Szczegóły trasy</th>
+                        <th>Na mapie</th>
         			</tr>	
         	</thead>
         	<tbody>
@@ -29,14 +29,14 @@
                     <form action="" method="POST"> 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-trash"></span>
-                        <input type="submit" value="Unset route#{{route.id}}" name="unset" class="btn btn-primary">
+                        <input type="submit" value="Usuń trasę użytkownikowi#{{route.id}}" name="unset" class="btn btn-primary">
                     </form>
 				</td>
 				<td>
-            		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Details#{{ route.id }}</a>
+            		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
 				</td>
                 <td>
-                    <a href="routeOnMap{{ route.id }}" class="btn btn-primary">On Map#{{ route.id }}</a>
+                    <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na Mapie#{{ route.id }}</a>
                 </td>
         	</tr>
         	{% endfor %}
@@ -45,7 +45,7 @@
     </div>
     {% else %}
     <div class="page-header">
-        <h1>You have to login !<br>
+        <h1>Musisz być zalogowany !<br>
         </h1>
     </div>
     {% endif %}

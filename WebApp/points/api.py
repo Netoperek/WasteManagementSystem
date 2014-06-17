@@ -11,7 +11,10 @@ class PointResource(ModelResource):
 	address = fields.ForeignKey(AddressResource, 'address')
 
 	class Meta:
+
 		queryset = Point.objects.all()
+		queryset = Point.objects.filter(route = '67')
+		print queryset
 		resource_name = 'point'
 		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL, "address" : ALL} 
 		#authentication = BasicAuthentication()

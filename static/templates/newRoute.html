@@ -113,6 +113,14 @@
           locator.addressToLocations(options);
         }
 
+        function checkAddres(address){
+          //19.91422101900193#50.06707138998097#ulica Miechowska 5, 30-055, Krakow, Woj. Malopolskie 
+          var street = address.split(",")[0];
+          if( isNaN(street.split(" ")[2]) ) return false;
+          return true;
+        }
+
+
         function showResults(evt) {
           var candidate;
           var symbol = new SimpleMarkerSymbol();
@@ -144,9 +152,14 @@
               console.log(y);
               var graphic = new Graphic(geom, symbol, attributes, infoTemplate);
               //add a graphic to the map at the geocoded location
-              map.graphics.add(graphic);
+
               //add a text symbol to the map listing the location of the matched address.
               address = candidate.address;
+              if(!checkAddres(address)){
+                alert("Nie znaleziono numeru ulicy");
+                return false;
+              }
+              map.graphics.add(graphic);
               //var displayText = counter + "# " + candidate.address;
               var displayText = " #" + counter ;
               var font = new Font(
@@ -167,16 +180,15 @@
               return false; //break out of loop after one candidate with score greater  than 80 is found.
             }
           });
-          if ( geom !== undefined ) {
+
+          if ( geom !== undefined && checkAddres(address)) {
             map.centerAndZoom(geom, 12);
             points.push(x+"#"+y+"#"+address);
-            for(var i = 0; i < points.length; i++)
-              console.log(points[i]);
           }else{
-            alert("notFound");
             --counter;
           }
         }
+
       });
 
         function clearGraphics(){
@@ -186,14 +198,18 @@
         }
 
         function save(){
+          $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+          });
           $.ajax({
-            type:"GET",
+            type:"POST",
             url:"/saveRoute/",
-            data:{points:points},//**I want pass the arr to django**
+            data:{points:points, routeName:routeName.value},
             success:function(data){alert(data);},
-            error:function(data){alert(data);}
+            error:function(xhr,errmsg,err){alert(xhr.status + ": " + xhr.responseText);}
          });
-          clearGraphics();
+          return false;
+        clearGraphics();
        }
 
 
@@ -205,26 +221,26 @@
 
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand" ><a class="alert-link" href=""><i>Logged as: {{request.user.username}}</i></a>
+                <li class="sidebar-brand" ><a class="alert-link" href=""><i>Zalogowany jako: {{request.user.username}}</i></a>
                 </li>
-                <li><a href="logoutPage">Logout</a>
-                <li><a href="/">Home</a>
+                <li><a href="logoutPage">Wyloguj</a>
+                <li><a href="/">Start</a>
                 </li>
-                <li><a href="mobileUsers">MobileApp Users</a>
+                <li><a href="mobileUsers">Użytkownicy mobilni</a>
                 </li>
-                <li><a href="#">WebApp Users</a>
+                <li><a href="webAppUsers">Użytkownicy webowi</a>
                 </li>
-                <li><a href="#">Forms</a>
+                <li><a href="#">Formularze</a>
                 </li>
-                <li><a href="#">Raports</a>
+                <li><a href="#">Raporty</a>
                 </li>
-                <li><a href="routes">Routes</a>
+                <li><a href="routes">Trasy</a>
                 </li>
-                <li><a href="newRoute">Create New Route</a>
+                <li><a href="newRoute">Stwórz nową trasę</a>
                 </li>
-                <li><a href="addMobileUser">Add Mobile App User</a>
+                <li><a href="addMobileUser">Dodaj użytkownika mobilnego</a>
                 </li>
-                <li><a href="#">Add Web App User</a>
+                <li><a href="addWebUser">Dodaj użytkownika webowego</a>
                 </li>
             </ul>
         </div>
@@ -233,24 +249,29 @@
          data-dojo-props="design:'sidebar', gutters:false" 
          style="width:100%; height:100%;">
 
+
       <div id="leftPane"
            data-dojo-type="dijit/layout/ContentPane" 
            data-dojo-props="region:'left'">
-        Enter an addres and click add button to add a point to new route 
+        <p>Wpisz adres i naciśnij przycisk aby dodać punkt</p>
         <br>
 
         <textarea type="text" id="address"/>Kraków Miechowska 5</textArea>
         <br>
-
-    <button id="locate" data-dojo-type="dijit/form/Button">Add point</button> 
+        <br>
+        <button id="locate" data-dojo-type="dijit/form/Button">Dodaj punkt</button> 
+        <br>
+        <br>
+        <p>Wpisz nazwę trasy</p>
+        <textarea type="text" id="routeName"/></textArea>
       </div>
 
       <div id="map" 
            data-dojo-type="dijit/layout/ContentPane" 
            data-dojo-props="region:'center'">
            <div id="LocateButton"></div>
-           <input id="ClearButton" type="button" value="Clear" onclick="clearGraphics()" class="btn btn-primary btn-small"/> 
-           <input id="SaveButton" type="button" value="Save" onclick="save()" class="btn btn-primary btn-small"/> 
+           <input id="ClearButton" type="button" value="Wyczyść" onclick="clearGraphics()" class="btn btn-primary btn-small"/> 
+           <input id="SaveButton" type="button" value="Zapisz" onclick="save()" class="btn btn-primary btn-small"/> 
       </div>
     </div>
   </body>
@@ -259,25 +280,25 @@
 
           <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="loginPage">Log in</a>
+                <li class="sidebar-brand"><a href="loginPage">Zaloguj się</a>
                 </li>
-                <li><a href="/">Home</a>
+                <li><a href="/">Start</a>
                 </li>
-                <li><a href="mobileUsers">MobileApp Users</a>
+                <li><a href="mobileUsers">Użytkownicy mobilni</a>
                 </li>
-                <li><a href="#">WebApp Users</a>
+                <li><a href="webAppUsers">Użytkownicy webowi</a>
                 </li>
-                <li><a href="#">Forms</a>
+                <li><a href="#">Formularze</a>
                 </li>
-                <li><a href="#">Raports</a>
+                <li><a href="#">Raporty</a>
                 </li>
-                <li><a href="routes">Routes</a>
+                <li><a href="routes">Trasy</a>
                 </li>
-                <li><a href="newRoute">Create New Route</a>
+                <li><a href="newRoute">Stwórz nową trasę</a>
                 </li>
-                <li><a href="addMobileUser">Add Mobile App User</a>
+                <li><a href="addMobileUser">Dodaj użytkownika mobilnego</a>
                 </li>
-                <li><a href="#">Add Web App User</a>
+                <li><a href="addWebUser">Dodaj użytkownika webowego</a>
                 </li>
             </ul>
         </div>
@@ -285,7 +306,7 @@
          data-dojo-props="design:'sidebar', gutters:false" 
          style="width:100%; height:100%;">
     <div class="page-header" id="login">
-      <h1>You have to login !<br></h1>
+      <h1>Musisz być zalogowany!<br></h1>
     </div>
 
     </div>

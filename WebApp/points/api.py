@@ -17,7 +17,6 @@ class PointResource(ModelResource):
 		print queryset
 		resource_name = 'point'
 		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL, "address" : ALL} 
-		#authentication = BasicAuthentication()
 
 	def alter_list_data_to_serialize(self, request, data):
 		return data['objects']

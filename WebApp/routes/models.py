@@ -6,7 +6,7 @@ class Route(models.Model):
 	name = models.CharField(max_length=30, null=False, blank=False)
 
 def __unicode__(self):
-		return smart_unicode(self.id)
+	return smart_unicode(self.id)
 
 
 

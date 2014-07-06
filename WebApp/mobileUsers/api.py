@@ -1,13 +1,13 @@
 from tastypie.resources import ModelResource
 from tastypie.constants import ALL
 from tastypie import fields
-from routes.models import Route
+from mobileUsers.models import MobileUser
 from tastypie.authorization import Authorization
 
-class RouteResource(ModelResource):
+class MobileUserResource(ModelResource):
 	class Meta:
-		queryset = Route.objects.all()
-		resource_name = 'route'
+		queryset = MobileUser.objects.all()
+		resource_name = 'mobileUser'
 		authorization = Authorization()
 
 	def alter_list_data_to_serialize(self, request, data):

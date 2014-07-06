@@ -34,7 +34,7 @@ def trackMobileUser(request, num):
 	mobileUser = MobileUser.objects.get(pk=num)
 
 	routeId = num
-	num = 67
+	num = 11
 	routeName = Route.objects.filter(pk=num).values('name')[0]
 
 	addressQuery = 'select * from address_address join points_point on (address_address.id = points_point.address_id) where points_point.route_id =' + str(routeId) +' ;'

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+    
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="page-header">
+        <h1>Historia tras użytkownika<br>
+            <small>{{ mobileUser }}</small>
+        </h1>
+    </div>
+
+     <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+        </div>
+        <form id="login_form" method="post" action="mobileUsers">
+    {% csrf_token %}
+    <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>#</th>
+                    <th>Data</th>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="id" value="" size="10" /> </td>
+                        <td><input type="text" name="Login" value="" size="10" /></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </form>
+    </div>
+        <div class="table-responsive">
+        	<table class="table table-striped">
+        		<thead>
+        			<tr>
+        				<th>#</th>
+        				<th>Data</th>
+                        <th>Mapa</th>
+                        <th>Szczegóły trasy</th>
+        			</tr>	
+        		</thead>
+        		<tbody>
+        		<tr>
+    {% for route in routes %}
+         			<td>{{ route.id }}</td>
+					<td>{{ route.date }}</td>
+                    <td>
+                        <a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
+                    </td>
+                    <td>
+                        <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na mapie#{{ route.id }}</a>
+                    </td>
+        		</tr>
+        		</tbody>
+        	</table>
+        </div>
+    {% endfor %}
+    {% else %}
+        <div class="page-header">
+            <h1>Musisz być zalogowany !<br></h1>
+        </div>
+    {% endif %}
+    
+{% endblock %}

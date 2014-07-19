@@ -33,13 +33,15 @@ def setRoute(request, num):
 def trackMobileUser(request, num):
 	mobileUser = MobileUser.objects.get(pk=num)
 
-	routeId = num
-	num = 11
-	routeName = Route.objects.filter(pk=num).values('name')[0]
+	now = datetime.datetime.now().strftime("%Y-%m-%d") 
+	routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "';"
+	routes = MobileUserRoute.objects.raw(routeQuery)
+	routeId = routes[0].route_id
+	routeName =  Route.objects.filter(pk = routeId).values('name')[0]
 
 	addressQuery = 'select * from address_address join points_point on (address_address.id = points_point.address_id) where points_point.route_id =' + str(routeId) +' ;'
-	lats = Point.objects.filter(route=num).values('latitude')
-	lons = Point.objects.filter(route=num).values('longitude')
+	lats = Point.objects.filter(route=routeId).values('latitude')
+	lons = Point.objects.filter(route=routeId).values('longitude')
 	adds = Address.objects.raw(addressQuery)
 
 	latsList = []
@@ -56,5 +58,14 @@ def trackMobileUser(request, num):
 		addsList.append(str(add.street)+' '+ str(add.number)+', '+str(add.postCode)+' '+ str(add.city))
 	
 	return render_to_response("trackMobileUser.html",
+								locals(),
+								context_instance=RequestContext(request))
+
+
+def mobileUserHistory(request, num):
+	mobileUser = MobileUser.objects.get(pk=num)
+
+	
+	return render_to_response("mobileUserHistory.html",
 								locals(),
 								context_instance=RequestContext(request))

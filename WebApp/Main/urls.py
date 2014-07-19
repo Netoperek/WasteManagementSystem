@@ -31,6 +31,7 @@ urlpatterns = patterns('',
 	url(r'^addMobileUser$', 'mobileUsers.views.addMobileUser', name='addMobileUser'),
 	url(r'^mobileUsersRoutes(?P<num>\d+)$','mobileUsers.views.mobileUsersRoutes'),
 	url(r'^trackMobileUser(?P<num>\d+)$', 'mobileUsersRoutes.views.trackMobileUser', name='trackMobileUser'),
+	url(r'^mobileUserHistory(?P<num>\d+)$', 'mobileUsersRoutes.views.mobileUserHistory', name='mobileUserHistory'),
 
 	#routes
 	url(r'^routes$', 'routes.views.routes', name='routes'),

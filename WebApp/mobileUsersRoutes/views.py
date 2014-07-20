@@ -36,10 +36,9 @@ def trackMobileUser(request, num):
 	now = datetime.datetime.now().strftime("%Y-%m-%d") 
 	routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "';"
 	routes = MobileUserRoute.objects.raw(routeQuery)
-	notTracked = 1
 
 	if len(list(routes)) != 0 :
-		notTracked = 0
+		routeId = routes[0].route_id
 		routeName =  Route.objects.filter(pk = routeId).values('name')[0]
 
 		addressQuery = 'select * from address_address join points_point on (address_address.id = points_point.address_id) where points_point.route_id =' + str(routeId) +' ;'

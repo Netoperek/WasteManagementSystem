@@ -42,7 +42,7 @@ def routeDetails(request, num):
 								context_instance=RequestContext(request))
 
 def routeOnMap(request, num):
-
+        print "ASD"
 	routeId= num
 	routeName = Route.objects.filter(pk=num).values('name')[0]
 

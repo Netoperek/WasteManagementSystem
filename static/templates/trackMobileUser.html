@@ -63,7 +63,7 @@
 
         function showLocation(location) {
           //zoom to the users location and add a graphic
-          var adds = {{addsList|safe}} ;
+          //var adds = {{addsList|safe}} ;
           var lats = {{latsList|safe}} ;
           var longs = {{lonsList|safe}} ;
           var pt;
@@ -71,7 +71,7 @@
 
          for(var i = 0; i < lats.length; i++){
             pt = new Point(lats[i], longs[i]);
-            addGraphic(pt, (i+1), adds[i]);
+            addGraphic(pt, (i+1));
             points.push(pt);
 
           }
@@ -84,7 +84,7 @@
           map.centerAt(pt);
         }
         
-        function addGraphic(pt, number, address){
+        function addGraphic(pt, number){
           var font = new Font(
             "10pt",
             Font.STYLE_NORMAL, 
@@ -92,13 +92,10 @@
             Font.WEIGHT_BOLD,
             "Helvetica"
           );
-          var infoTemplate = new InfoTemplate(
-            "Lokalizacja", 
-            " ${address}"
-          );
+          var infoTemplate = new InfoTemplate("Lokalizacja");
           
           var attributes = { 
-            address: address
+            address: "TU BEDZIE ADDRES"
           };   
 
           var textSymbol = new esri.symbol.TextSymbol("#"+number);

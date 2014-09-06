@@ -2,8 +2,9 @@ from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest
 from mobileUsers.models import MobileUser
 from routes.models import Route
+from trackingRoutes.models import TrackingRoute
 from mobileUsersRoutes.models import MobileUserRoute
-from points.models import Point
+from trackingPoints.models import TrackingPoint
 from address.models import Address
 import datetime
 
@@ -38,27 +39,23 @@ def trackMobileUser(request, num):
 	routes = MobileUserRoute.objects.raw(routeQuery)
 
 	if len(list(routes)) != 0 :
-		routeId = routes[0].route_id
-		routeName =  Route.objects.filter(pk = routeId).values('name')[0]
+		routeId = routes[0].trackingRoute_id
+		routeName =  TrackingRoute.objects.filter(pk = routeId).values('name')[0]
+                print routeId
 
-		addressQuery = 'select * from address_address join points_point on (address_address.id = points_point.address_id) where points_point.route_id =' + str(routeId) +' ;'
-		lats = Point.objects.filter(route=routeId).values('latitude')
-		lons = Point.objects.filter(route=routeId).values('longitude')
-		adds = Address.objects.raw(addressQuery)
+		lats = TrackingPoint.objects.filter(route=routeId).values('latitude')
+		lons = TrackingPoint.objects.filter(route=routeId).values('longitude')
 
 		latsList = []
 		lonsList = []
-		addsList = []
-		
+
 		for lat in lats:
 			latsList.extend(lat.values())
 
 		for lon in lons:
 			lonsList.extend(lon.values())
 
-		for add in adds:
-			addsList.append(str(add.street)+' '+ str(add.number)+', '+str(add.postCode)+' '+ str(add.city))
-	
+
 	return render_to_response("trackMobileUser.html",
 								locals(),
 								context_instance=RequestContext(request))

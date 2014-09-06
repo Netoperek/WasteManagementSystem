@@ -1,7 +1,6 @@
 from django.db import models
 from routes.models import Route
 from address.models import Address
-# Create your models here.
 
 class Point(models.Model):
 	route = models.ForeignKey(Route, null=True, blank=True)

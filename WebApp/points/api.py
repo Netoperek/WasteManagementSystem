@@ -12,8 +12,6 @@ class PointResource(ModelResource):
 
 	class Meta:
 		queryset = Point.objects.all()
-		queryset = Point.objects.filter(route = '67')
-		print queryset
 		resource_name = 'point'
 		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL, "address" : ALL} 
 		authorization = Authorization()

@@ -46,6 +46,8 @@ INSTALLED_APPS = (
     'points',
     'reports',
     'routes',
+    'trackingPoints',
+    'trackingRoutes',
     'tastypie'
 )
 
@@ -65,6 +67,8 @@ WSGIPassAuthorization = True
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+
+DATABASE_OPTIONS = {'use_unicode': False, 'charset': 'utf8'}
 
 DATABASES = {
     'default': {

@@ -3,7 +3,7 @@ from tastypie.constants import ALL
 from tastypie.authorization import Authorization
 from tastypie import fields
 from points.models import Point
-from routes.api import RouteResource
+from trackingRoutes.api import TrackingRouteResource
 from address.api import AddressResource
 from mobileUsersRoutes.models import MobileUserRoute
 from mobileUsers.api import MobileUserResource
@@ -13,7 +13,7 @@ from django.http import HttpResponse
 
 class MobileUsersRouteResource(ModelResource):
 	mobileUser = fields.ForeignKey(MobileUserResource, 'mobileUser')
-	route = fields.ForeignKey(RouteResource, 'route')
+	trackingRoute = fields.ForeignKey(TrackingRouteResource, 'trackingRoute')
 
 	class Meta:
 		always_return_data = True

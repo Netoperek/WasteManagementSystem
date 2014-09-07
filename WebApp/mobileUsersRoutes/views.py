@@ -22,13 +22,13 @@ def setRoute(request, num):
 	_id = request.POST.get("set", "")
 	if _id:
 		route = Route.objects.get(pk=int(_id.split('#')[1]))	
-		mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+		mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, trackingRoute = None, date = date)
 		mobileUserRoute.save()
 		return HttpResponseRedirect('mobileUsers')
 
 	return render_to_response("setRoute.html",
-								locals(),
-								context_instance=RequestContext(request))
+				locals(),
+				context_instance=RequestContext(request))
 
 
 def trackMobileUser(request, num):

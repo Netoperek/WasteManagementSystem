@@ -12,5 +12,3 @@ class RouteResource(ModelResource):
 
 	def alter_list_data_to_serialize(self, request, data):
 		return data['objects']
-
-

@@ -2,18 +2,15 @@ from tastypie.resources import ModelResource
 from tastypie.constants import ALL
 from tastypie.authorization import Authorization
 from tastypie import fields
-from points.models import Point
+from trackingPoints.models import TrackingPoint
 from routes.api import RouteResource
-from address.api import AddressResource
 
-class PointResource(ModelResource):
+class TrackingPointResource(ModelResource):
 	route = fields.ForeignKey(RouteResource, 'route')
-	address = fields.ForeignKey(AddressResource, 'address')
 
 	class Meta:
-		queryset = Point.objects.all()
-		resource_name = 'point'
-		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL, "address" : ALL} 
+		queryset = TrackingPoint.objects.all()
+		resource_name = 'trackingPoint'
 		authorization = Authorization()
 
 	def alter_list_data_to_serialize(self, request, data):

@@ -14,7 +14,7 @@ import datetime
 def mobileUsersRoutes(request, num):
 	_id = request.POST.get("unset", "")
 	if _id:
-                MobileUserRoute.objects.filter(mobileUser_id = num).delete()
+		MobileUserRoute.objects.filter(route_id=int(_id.split('#')[1])).delete()
 
 	query = 'select routes_route.id, routes_route.name from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
 
@@ -22,53 +22,64 @@ def mobileUsersRoutes(request, num):
 	return render_to_response("mobileUsersRoutes.html",
 								locals(),
 								context_instance=RequestContext(request))
-#TODO trackingRoute = None is wrong !!!!!
 def setRoute(request, num):
 	context = RequestContext(request)
 	now = datetime.datetime.now()
+        routeId = -1 
 
-	mobileUser = MobileUser.objects.get(pk=num)
-	routes = Route.objects.all()
-	if request.method == 'POST':
-		date = request.POST.get("doDate", str(now))
+        notSet = True
+        _id = request.POST.get("set", "")
+        if _id:
+            routeId = int(_id.split('#')[1])
+        
+        if MobileUserRoute.objects.filter(route_id = routeId):
+                notSet = False
+        else:
+                mobileUser = MobileUser.objects.get(pk=num)
+                routes = Route.objects.all()
+                if request.method == 'POST':
+                        date = request.POST.get("doDate", str(now))
 
-	_id = request.POST.get("set", "")
-	if _id:
-		route = Route.objects.get(pk=int(_id.split('#')[1]))	
-		mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, trackingRoute = None, date = date)
-		mobileUserRoute.save()
-		return HttpResponseRedirect('mobileUsers')
+                if _id:
+                        route = Route.objects.get(pk=routeId)	
+                        mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+                        mobileUserRoute.save()
+                        return HttpResponseRedirect('mobileUsers')
 
 	return render_to_response("setRoute.html",
 				locals(),
 				context_instance=RequestContext(request))
 
 def setUserToRoute(request, num):
-        mobileUsers = MobileUser.objects.all()
-        routeToSet = Route.objects.filter(id=num).values('name')[0]
-	now = datetime.datetime.now()
-        routeId = num
 
-	_id = request.POST.get("set", "")
-	if _id:
-                route = Route.objects.get(pk=num)
-		mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
-		mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, trackingRoute = None, date = str(now))
-		mobileUserRoute.save()
-		return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
-        
+        notSet = True
+        if MobileUserRoute.objects.filter(route_id = num):
+                notSet = False
         else:
-                if request.method == 'POST':
-                    Id = request.POST['id']
-                    Login = request.POST['Login']
+                mobileUsers = MobileUser.objects.all()
+                routeToSet = Route.objects.filter(id=num).values('name')[0]
+                now = datetime.datetime.now()
+                routeId = num
+                _id = request.POST.get("set", "")
+                if _id:
+                        route = Route.objects.get(pk=num)
+                        mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
+                        mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = str(now))
+                        mobileUserRoute.save()
+                        return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
+                
+                else:
+                        if request.method == 'POST':
+                            Id = request.POST['id']
+                            Login = request.POST['Login']
 
-                    if Login == None:
-                        Login = r".*"
+                            if Login == None:
+                                Login = r".*"
 
-                    if Id:
-                        mobileUsers =  MobileUser.objects.filter(pk = Id, login__regex=Login)
-                    else:
-                        mobileUsers =  MobileUser.objects.filter(login__regex=Login)
+                            if Id:
+                                mobileUsers =  MobileUser.objects.filter(pk = Id, login__regex=Login)
+                            else:
+                                mobileUsers =  MobileUser.objects.filter(login__regex=Login)
 
         routeId = num
 	return render_to_response("setUserToRoute.html",

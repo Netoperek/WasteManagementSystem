@@ -1,51 +1,71 @@
 {% extends 'base.html' %}
     
 {% block content %}
-    <div class="page-header">
-        <h1>Dodaj trasę użytkownikowi: {{mobileUser}}<br>
-            <small>Wybierz trasę</small>
-        </h1>
-    </div>
+    {% if user.is_authenticated %}
 
-    <div class="table-responsive">
-        <form action="" method="POST"> 
-        <table class="table table-striped">   
+      {% if notSet %}
+      <div class="page-header">
+          <h1>Dodaj trasę użytkownikowi: {{mobileUser}}<br>
+              <small>Wybierz trasę</small>
+          </h1>
+      </div>
+
+      <div class="table-responsive">
+          <form action="" method="POST"> 
+          <table class="table table-striped">   
+              <thead>
+                  <th>Data wykonania (rrrr-mm-dd):</th>
+              </thead> 
+              <tbody>
+                  <td><input type="text" name="doDate" value="" size="30" /></td>    
+              </tbody>
+          </table>
+        <table class="table table-striped">
             <thead>
-                <th>Data wykonania (rrrr-mm-dd):</th>
-            </thead> 
-            <tbody>
-                <td><input type="text" name="doDate" value="" size="30" /></td>    
-            </tbody>
-        </table>
-    	<table class="table table-striped">
-        	<thead>
 
-        		<tr>
-        			<th>#</th>
-        				<th>Nazwa</th>
-        				<th>Usuń trasę</th>
-        				<th>Szczegóły trasy</th>
-                        <th>Na Mapie</th>
-        			</tr>	
-        	</thead>
-        	<tbody>
-        	{% for route in routes %}
-        	<tr>
-        		<td>{{ route.id }}</td>
-				<td>{{ name.id }}</td>
-                
-                {% csrf_token %}
-				<td><input type="submit" value="Set Route#{{route.id}}#{{doDate}}" name="set" class="btn btn-primary"></td>
-                </form>
-				<td>
-            		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
-				</td>
-                <td>
-                    <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na mapie#{{ route.id }}</a>
-                </td>
-        	</tr>
-        	{% endfor %}
-        	</tbody>
-        </table>
+              <tr>
+                <th>#</th>
+                  <th>Nazwa</th>
+                  <th>Usuń trasę</th>
+                  <th>Szczegóły trasy</th>
+                  <th>Na Mapie</th>
+                </tr>	
+            </thead>
+            <tbody>
+            {% for route in routes %}
+            <tr>
+              <td>{{ route.id }}</td>
+          <td>{{ route.name }}</td>
+                  
+                  {% csrf_token %}
+          <td><input type="submit" value="Ustaw trase#{{route.id}} {{doDate}}" name="set" class="btn btn-primary"></td>
+                  </form>
+          <td>
+                  <a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
+          </td>
+                  <td>
+                      <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na mapie#{{ route.id }}</a>
+                  </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+      </div>
+      {% else %}
+      <div class="page-header">
+        <h1>Nie można przyporządkować tej trasy</h1>
+      </div>
+
+      <div class="alert alert-warning">
+        Ta trasa jest już przyporządkowana
+      </div>
+
+      {% endif %}
+
+    {% else %}
+    <div class="page-header">
+        <h1>Musisz być zalogowany !<br></h1>
     </div>
+    {% endif %}
+    
 {% endblock %}

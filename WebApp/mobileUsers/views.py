@@ -10,7 +10,6 @@ def mobileUsers(request):
 	_id = request.POST.get("remove", "")
 	if _id:
 		MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
-
 	else:
 		if request.method == 'POST':
 			Id = request.POST['id']
@@ -38,18 +37,5 @@ def addMobileUser(request):
 		return HttpResponseRedirect('mobileUsers')
 
 	return render_to_response("addMobileUser.html",
-								locals(),
-								context_instance=RequestContext(request))
-
-def mobileUsersRoutes(request, num):
-	_id = request.POST.get("unset", "")
-	if _id:
-		route = Route.objects.get(id=int(_id.split('#')[1]))
-		route.save()
-
-	query = 'select routes_route.id, routes_route.name from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
-
-	routes = Route.objects.raw(query)
-	return render_to_response("mobileUsersRoutes.html",
 								locals(),
 								context_instance=RequestContext(request))

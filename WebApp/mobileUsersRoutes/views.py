@@ -10,6 +10,19 @@ import datetime
 
 # Create your views here.
 
+
+def mobileUsersRoutes(request, num):
+	_id = request.POST.get("unset", "")
+	if _id:
+                MobileUserRoute.objects.filter(mobileUser_id = num).delete()
+
+	query = 'select routes_route.id, routes_route.name from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
+
+	routes = Route.objects.raw(query)
+	return render_to_response("mobileUsersRoutes.html",
+								locals(),
+								context_instance=RequestContext(request))
+#TODO trackingRoute = None is wrong !!!!!
 def setRoute(request, num):
 	context = RequestContext(request)
 	now = datetime.datetime.now()

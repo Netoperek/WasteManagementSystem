@@ -22,6 +22,7 @@ def routes(request):
 		if request.method == 'POST':
 			Id = request.POST['Id']
 			Name = request.POST['Name']
+                        routesSet = request.POST.get("set","")
 
 			if Name == None:
 				Name = r".*"
@@ -31,6 +32,16 @@ def routes(request):
 												name__regex=Name)
 			else:
 				routes =  Route.objects.filter(name__regex=Name)
+                      
+                        routesNotSet = []
+                        if routesSet:
+                                for route in routes:
+                                    mobileUserRoutes = MobileUserRoute.objects.filter(route_id = route.id)
+                                    if not mobileUserRoutes:
+                                        routesNotSet.append(route)
+
+                                routes = routesNotSet        
+
 
 	return render_to_response("routes.html",
 								locals(),

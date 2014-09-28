@@ -33,7 +33,7 @@ urlpatterns = patterns('',
         #mobileUsers
 	url(r'^mobileUsers$', 'mobileUsers.views.mobileUsers', name='mobileUsers'),
 	url(r'^addMobileUser$', 'mobileUsers.views.addMobileUser', name='addMobileUser'),
-	url(r'^mobileUsersRoutes(?P<num>\d+)$','mobileUsers.views.mobileUsersRoutes'),
+	url(r'^mobileUsersRoutes(?P<num>\d+)$','mobileUsersRoutes.views.mobileUsersRoutes'),
 	url(r'^trackMobileUser(?P<num>\d+)$', 'mobileUsersRoutes.views.trackMobileUser', name='trackMobileUser'),
 	url(r'^mobileUserHistory(?P<num>\d+)$', 'mobileUsersRoutes.views.mobileUserHistory', name='mobileUserHistory'),
 

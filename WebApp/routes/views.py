@@ -4,8 +4,10 @@ from django.http import HttpResponseRedirect, HttpRequest
 from routes.models import Route
 from points.models import Point
 from mobileUsers.models import MobileUser
+from mobileUsersRoutes.models import MobileUserRoute
 from address.models import Address
 from routes.models import Route
+import datetime
 # Create your views here.
 
 def routes(request):
@@ -42,7 +44,6 @@ def routeDetails(request, num):
 								context_instance=RequestContext(request))
 
 def routeOnMap(request, num):
-        print "ASD"
 	routeId= num
 	routeName = Route.objects.filter(pk=num).values('name')[0]
 

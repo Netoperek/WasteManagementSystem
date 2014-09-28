@@ -10,7 +10,6 @@ def mobileUsers(request):
 	_id = request.POST.get("remove", "")
 	if _id:
 		MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
-
 	else:
 		if request.method == 'POST':
 			Id = request.POST['id']

@@ -45,6 +45,7 @@ urlpatterns = patterns('',
 	url(r'^routeOnMap(?P<num>\d+)$', 'routes.views.routeOnMap', name='routeOnMap'),
 	url(r'^saveRoute/$','map.views.saveRoute'),
 	url(r'^setRoute(?P<num>\d+)$','mobileUsersRoutes.views.setRoute'),
+        url(r'^setUserToRoute(?P<num>\d+)$','mobileUsersRoutes.views.setUserToRoute'),
 
 	#webAppUsers
 	url(r'^webAppUsers$', 'webAppUser.views.webAppUsers', name='webAppUsers'),

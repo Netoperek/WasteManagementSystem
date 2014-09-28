@@ -39,10 +39,11 @@
         		<tr>
         			<th>#</th>
         				<th>Data wykonania</th>
-                        <th>Nazwa</th>
+                <th>Nazwa</th>
         				<th>Usuń trasę</th>
         				<th>Szczegóły trasy</th>
-                        <th>Mapa</th>
+                <th>Mapa</th>
+                <th>Przyporządkuj użytkownikowi</th>
         			</tr>	
         	</thead>
         	<tbody>
@@ -64,6 +65,9 @@
                 <td>
                     <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na mapie#{{ route.id }}</a>
                 </td>
+				<td>
+            		<a href="setUserToRoute{{ route.id }}" class="btn btn-primary">Przyporządkuj#{{ route.id }}</a>
+				</td>
         	</tr>
         	{% endfor %}
         	</tbody>

@@ -30,6 +30,38 @@ def setRoute(request, num):
 				locals(),
 				context_instance=RequestContext(request))
 
+def setUserToRoute(request, num):
+        mobileUsers = MobileUser.objects.all()
+        routeToSet = Route.objects.filter(id=num).values('name')[0]
+	now = datetime.datetime.now()
+        routeId = num
+
+	_id = request.POST.get("set", "")
+	if _id:
+                route = Route.objects.get(pk=num)
+		mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
+		mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, trackingRoute = None, date = str(now))
+		mobileUserRoute.save()
+		return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
+        
+        else:
+                if request.method == 'POST':
+                    Id = request.POST['id']
+                    Login = request.POST['Login']
+
+                    if Login == None:
+                        Login = r".*"
+
+                    if Id:
+                        mobileUsers =  MobileUser.objects.filter(pk = Id, login__regex=Login)
+                    else:
+                        mobileUsers =  MobileUser.objects.filter(login__regex=Login)
+
+        routeId = num
+	return render_to_response("setUserToRoute.html",
+								locals(),
+								context_instance=RequestContext(request))
+
 
 def trackMobileUser(request, num):
 	mobileUser = MobileUser.objects.get(pk=num)
@@ -40,25 +72,26 @@ def trackMobileUser(request, num):
 
 	if len(list(routes)) != 0 :
 		routeId = routes[0].trackingRoute_id
-		routeName =  TrackingRoute.objects.filter(pk = routeId).values('name')[0]
-                print routeId
+                
+                if routeId:
+                    routeName =  TrackingRoute.objects.filter(pk = routeId).values('name')[0]
 
-		lats = TrackingPoint.objects.filter(route=routeId).values('latitude')
-		lons = TrackingPoint.objects.filter(route=routeId).values('longitude')
+                    lats = TrackingPoint.objects.filter(route=routeId).values('latitude')
+                    lons = TrackingPoint.objects.filter(route=routeId).values('longitude')
 
-		latsList = []
-		lonsList = []
+                    latsList = []
+                    lonsList = []
 
-		for lat in lats:
-			latsList.extend(lat.values())
+                    for lat in lats:
+                            latsList.extend(lat.values())
 
-		for lon in lons:
-			lonsList.extend(lon.values())
+                    for lon in lons:
+                            lonsList.extend(lon.values())
 
 
-	return render_to_response("trackMobileUser.html",
-								locals(),
-								context_instance=RequestContext(request))
+	return render_to_response(  "trackMobileUser.html",
+				    locals(),
+				    context_instance=RequestContext(request))
 
 
 def mobileUserHistory(request, num):

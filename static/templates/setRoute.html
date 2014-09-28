@@ -24,18 +24,18 @@
         			<th>#</th>
         				<th>Nazwa</th>
         				<th>Usuń trasę</th>
-        				<th>Szczegóły trasy</th>
-                        <th>Na Mapie</th>
+                <th>Szczegóły trasy</th>
+                <th>Na Mapie</th>
         			</tr>	
         	</thead>
         	<tbody>
         	{% for route in routes %}
         	<tr>
         		<td>{{ route.id }}</td>
-				<td>{{ name.id }}</td>
+				<td>{{ route.name }}</td>
                 
                 {% csrf_token %}
-				<td><input type="submit" value="Set Route#{{route.id}}#{{doDate}}" name="set" class="btn btn-primary"></td>
+				<td><input type="submit" value="Ustaw trase#{{route.id}} {{doDate}}" name="set" class="btn btn-primary"></td>
                 </form>
 				<td>
             		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>

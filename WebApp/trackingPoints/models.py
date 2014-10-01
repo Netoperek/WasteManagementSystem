@@ -1,7 +1,7 @@
 from django.db import models
-from routes.models import Route
+from trackingRoutes.models import TrackingRoute
 
 class TrackingPoint(models.Model):
-	route = models.ForeignKey(Route, null=True, blank=True)
+	trackingRoute = models.ForeignKey(TrackingRoute, null=True, blank=True)
 	longitude = models.FloatField(null=False, blank=False)
 	latitude = models.FloatField(null=False, blank=False)

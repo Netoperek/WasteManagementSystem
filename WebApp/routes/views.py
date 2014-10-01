@@ -8,7 +8,6 @@ from mobileUsersRoutes.models import MobileUserRoute
 from address.models import Address
 from routes.models import Route
 import datetime
-# Create your views here.
 
 def routes(request):
 	context = RequestContext(request)
@@ -79,5 +78,3 @@ def routeOnMap(request, num):
 	return render_to_response("routeOnMap.html",
 								locals(),
 								context_instance=RequestContext(request))
-
-

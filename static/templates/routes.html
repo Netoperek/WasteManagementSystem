@@ -18,7 +18,6 @@
             <table class="table table-striped">
                 <thead>
                     <th>#</th>
-                    <th>Data wykonania (rrrr-mm-dd)</th>
                     <th>Nazwa</th>
                     <th>Tylko trasy jeszcze nie przyznane</th>
                     <th>Szukaj</th>
@@ -26,9 +25,9 @@
                 <tbody>
                     <tr>
                         <td><input type="text" name="Id" value="" size="10" /> </td>
-                        <td><input type="text" name="Data" value="" size="10" /></td>
                         <td><input type="text" name="Name" value="" size="10" /></td>
                         <td><input type="checkBox" name="set" value="Trasy już przyznane"</td>
+                        <span class="glyphicon glyphicon-hand-left"></span>
                         <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
                     </tr>
                 </tbody>
@@ -42,7 +41,6 @@
         	<thead>
         		<tr>
         			<th>#</th>
-        				<th>Data wykonania</th>
                 <th>Nazwa</th>
         				<th>Usuń trasę</th>
         				<th>Szczegóły trasy</th>
@@ -54,7 +52,6 @@
         	{% for route in routes %}
         	<tr>
         		<td>{{ route.id }}</td>
-				<td>{{ route.doDate }}</td>
                 <td>{{ route.name }}</td>
 				<td>
                     <form action="" method="POST"> 

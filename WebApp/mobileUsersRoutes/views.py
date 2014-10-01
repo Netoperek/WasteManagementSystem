@@ -24,7 +24,6 @@ def mobileUsersRoutes(request, num):
 								context_instance=RequestContext(request))
 def setRoute(request, num):
 	context = RequestContext(request)
-	now = datetime.datetime.now()
         routeId = -1 
 
         notSet = True
@@ -37,14 +36,14 @@ def setRoute(request, num):
         else:
                 mobileUser = MobileUser.objects.get(pk=num)
                 routes = Route.objects.all()
-                if request.method == 'POST':
-                        date = request.POST.get("doDate", str(now))
 
                 if _id:
-                        route = Route.objects.get(pk=routeId)	
-                        mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
-                        mobileUserRoute.save()
-                        return HttpResponseRedirect('mobileUsersRoutes' + str(num))
+			date = request.POST['date']
+                        if date:
+                            route = Route.objects.get(pk=routeId)	
+                            mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+                            mobileUserRoute.save()
+                            return HttpResponseRedirect('mobileUsersRoutes' + str(num))
 
 	return render_to_response("setRoute.html",
 				locals(),
@@ -62,11 +61,13 @@ def setUserToRoute(request, num):
                 routeId = num
                 _id = request.POST.get("set", "")
                 if _id:
-                        route = Route.objects.get(pk=num)
-                        mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
-                        mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = str(now))
-                        mobileUserRoute.save()
-                        return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
+			date = request.POST['date']
+                        if date:
+                            route = Route.objects.get(pk=num)
+                            mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
+                            mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+                            mobileUserRoute.save()
+                            return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
                 
                 else:
                         if request.method == 'POST':

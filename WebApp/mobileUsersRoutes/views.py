@@ -16,7 +16,7 @@ def mobileUsersRoutes(request, num):
 	if _id:
 		MobileUserRoute.objects.filter(route_id=int(_id.split('#')[1])).delete()
 
-	query = 'select routes_route.id, routes_route.name from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
+	query = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
 
 	routes = Route.objects.raw(query)
 	return render_to_response("mobileUsersRoutes.html",
@@ -44,7 +44,7 @@ def setRoute(request, num):
                         route = Route.objects.get(pk=routeId)	
                         mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
                         mobileUserRoute.save()
-                        return HttpResponseRedirect('mobileUsers')
+                        return HttpResponseRedirect('mobileUsersRoutes' + str(num))
 
 	return render_to_response("setRoute.html",
 				locals(),

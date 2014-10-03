@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response, RequestContext
-from django.http import HttpResponseRedirect, HttpRequest
+from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 from mobileUsers.models import MobileUser
 from routes.models import Route
 from trackingRoutes.models import TrackingRoute
@@ -22,6 +22,12 @@ def mobileUsersRoutes(request, num):
 	return render_to_response("mobileUsersRoutes.html",
 								locals(),
 								context_instance=RequestContext(request))
+def passDate(request):
+	return render_to_response("passDate.html",
+				locals(),
+				context_instance=RequestContext(request))
+
+
 def setRoute(request, num):
 	context = RequestContext(request)
         routeId = -1 
@@ -38,12 +44,16 @@ def setRoute(request, num):
                 routes = Route.objects.all()
 
                 if _id:
-			date = request.POST['date']
+			date = request.POST['date' + str(routeId)]
                         if date:
+                            print "here"
+                            print date
                             route = Route.objects.get(pk=routeId)	
                             mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
                             mobileUserRoute.save()
                             return HttpResponseRedirect('mobileUsersRoutes' + str(num))
+                        else:
+                            return HttpResponseRedirect('passDate')
 
 	return render_to_response("setRoute.html",
 				locals(),
@@ -92,17 +102,19 @@ def trackMobileUser(request, num):
 	mobileUser = MobileUser.objects.get(pk=num)
 
 	now = datetime.datetime.now().strftime("%Y-%m-%d") 
-	routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "';"
+        routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "' and  \"mobileUser_id\" = '" + num +   "';"
 	routes = MobileUserRoute.objects.raw(routeQuery)
 
+        print "here"
+        print list(routes)
 	if len(list(routes)) != 0 :
 		routeId = routes[0].trackingRoute_id
                 
                 if routeId:
                     routeName =  TrackingRoute.objects.filter(pk = routeId).values('name')[0]
 
-                    lats = TrackingPoint.objects.filter(route=routeId).values('latitude')
-                    lons = TrackingPoint.objects.filter(route=routeId).values('longitude')
+                    lats = TrackingPoint.objects.filter(trackingRoute=routeId).values('latitude')
+                    lons = TrackingPoint.objects.filter(trackingRoute=routeId).values('longitude')
 
                     latsList = []
                     lonsList = []

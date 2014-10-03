@@ -47,6 +47,7 @@ urlpatterns = patterns('',
 	url(r'^setRoute(?P<num>\d+)$','mobileUsersRoutes.views.setRoute'),
         url(r'^setUserToRoute(?P<num>\d+)$','mobileUsersRoutes.views.setUserToRoute'),
         url(r'^trackAll$','trackingRoutes.views.trackAll'),
+        url(r'^passDate$','mobileUsersRoutes.views.passDate'),
 
 	#webAppUsers
 	url(r'^webAppUsers$', 'webAppUser.views.webAppUsers', name='webAppUsers'),

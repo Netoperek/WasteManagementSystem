@@ -40,7 +40,7 @@
                   
                   {% csrf_token %}
           <td><input type="submit" value="Ustaw trasę#{{route.id}}" name="set" class="btn btn-primary"></td>
-          <td><input type="text" name="date" value="" size="9" required/></td>    
+          <td><input type="text" name="date{{route.id}}" value="" size="9" /></td>    
                   </form>
           <td>
                   <a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>

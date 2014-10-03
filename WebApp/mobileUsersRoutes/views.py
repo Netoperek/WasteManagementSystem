@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response, RequestContext
-from django.http import HttpResponseRedirect, HttpRequest
+from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 from mobileUsers.models import MobileUser
 from routes.models import Route
 from trackingRoutes.models import TrackingRoute
@@ -16,15 +16,20 @@ def mobileUsersRoutes(request, num):
 	if _id:
 		MobileUserRoute.objects.filter(route_id=int(_id.split('#')[1])).delete()
 
-	query = 'select routes_route.id, routes_route.name from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
+	query = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
 
 	routes = Route.objects.raw(query)
 	return render_to_response("mobileUsersRoutes.html",
 								locals(),
 								context_instance=RequestContext(request))
+def passDate(request):
+	return render_to_response("passDate.html",
+				locals(),
+				context_instance=RequestContext(request))
+
+
 def setRoute(request, num):
 	context = RequestContext(request)
-	now = datetime.datetime.now()
         routeId = -1 
 
         notSet = True
@@ -37,14 +42,18 @@ def setRoute(request, num):
         else:
                 mobileUser = MobileUser.objects.get(pk=num)
                 routes = Route.objects.all()
-                if request.method == 'POST':
-                        date = request.POST.get("doDate", str(now))
 
                 if _id:
-                        route = Route.objects.get(pk=routeId)	
-                        mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
-                        mobileUserRoute.save()
-                        return HttpResponseRedirect('mobileUsers')
+			date = request.POST['date' + str(routeId)]
+                        if date:
+                            print "here"
+                            print date
+                            route = Route.objects.get(pk=routeId)	
+                            mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+                            mobileUserRoute.save()
+                            return HttpResponseRedirect('mobileUsersRoutes' + str(num))
+                        else:
+                            return HttpResponseRedirect('passDate')
 
 	return render_to_response("setRoute.html",
 				locals(),
@@ -62,11 +71,13 @@ def setUserToRoute(request, num):
                 routeId = num
                 _id = request.POST.get("set", "")
                 if _id:
-                        route = Route.objects.get(pk=num)
-                        mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
-                        mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = str(now))
-                        mobileUserRoute.save()
-                        return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
+			date = request.POST['date']
+                        if date:
+                            route = Route.objects.get(pk=num)
+                            mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
+                            mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+                            mobileUserRoute.save()
+                            return HttpResponseRedirect('mobileUsersRoutes' + str(mobileUser.id))
                 
                 else:
                         if request.method == 'POST':
@@ -91,17 +102,19 @@ def trackMobileUser(request, num):
 	mobileUser = MobileUser.objects.get(pk=num)
 
 	now = datetime.datetime.now().strftime("%Y-%m-%d") 
-	routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "';"
+        routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "' and  \"mobileUser_id\" = '" + num +   "';"
 	routes = MobileUserRoute.objects.raw(routeQuery)
 
+        print "here"
+        print list(routes)
 	if len(list(routes)) != 0 :
 		routeId = routes[0].trackingRoute_id
                 
                 if routeId:
                     routeName =  TrackingRoute.objects.filter(pk = routeId).values('name')[0]
 
-                    lats = TrackingPoint.objects.filter(route=routeId).values('latitude')
-                    lons = TrackingPoint.objects.filter(route=routeId).values('longitude')
+                    lats = TrackingPoint.objects.filter(trackingRoute=routeId).values('latitude')
+                    lons = TrackingPoint.objects.filter(trackingRoute=routeId).values('longitude')
 
                     latsList = []
                     lonsList = []

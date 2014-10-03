@@ -1,21 +1,13 @@
 {% extends 'base.html' %}
-    
+
 {% block content %}
-    {% if user.is_authenticated %}
     <div class="page-header">
-        <h1>Dodaj użytkownika mobilnego<br>
-            <small>Wypełnij dane, aby dodać użytkownika aplikacji mobilnej</small>
+        <h1>Niepoprawne dane<br>
         </h1>
     </div>
 
-    <form method="POST" action=""> {% csrf_token %}
-        {{ form.as_p }}
-        <input type='submit' value = "Dodaj " class="btn btn-primary btn-lg">
-    </form> 
-    {% else %}
-    <div class="page-header">
-        <h1>Musisz być zalogowany !<br>
-        </h1>
+    <div class="alert alert-warning">
+      Musisz podać datę !
     </div>
-    {% endif %}
+
 {% endblock %}

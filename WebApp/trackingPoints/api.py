@@ -3,10 +3,10 @@ from tastypie.constants import ALL
 from tastypie.authorization import Authorization
 from tastypie import fields
 from trackingPoints.models import TrackingPoint
-from routes.api import RouteResource
+from trackingRoutes.api import TrackingRouteResource
 
 class TrackingPointResource(ModelResource):
-	route = fields.ForeignKey(RouteResource, 'route')
+	trackingRoute = fields.ForeignKey(TrackingRouteResource, 'trackingRoute')
 
 	class Meta:
 		queryset = TrackingPoint.objects.all()

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest
 from routes.models import Route
@@ -11,6 +13,12 @@ import datetime
 def routes(request):
 	context = RequestContext(request)
 	routes = Route.objects.all()
+        routeIsSet = []
+
+        routesNotSet = []
+        setRoutes = []
+
+
 
 	_id = request.POST.get("remove", "")
 	if _id:
@@ -30,15 +38,20 @@ def routes(request):
 												name__regex=Name)
 			else:
 				routes =  Route.objects.filter(name__regex=Name)
-                      
-                        routesNotSet = []
-                        if routesSet:
-                                for route in routes:
-                                    mobileUserRoutes = MobileUserRoute.objects.filter(route_id = route.id)
-                                    if not mobileUserRoutes:
-                                        routesNotSet.append(route)
 
-                                routes = routesNotSet        
+                        for route in routes:
+                            mobileUserRoutes = MobileUserRoute.objects.filter(route_id = route.id)
+                            if not mobileUserRoutes:
+                                routesNotSet.append(route)
+                            else:
+                                setRoutes.append(route)
+                                routeIsSet.append(route.id)
+                      
+                        if routesSet == "set":
+                                routes = routesNotSet
+                        elif routesSet == "unset":
+                                routes = setRoutes
+                                
 
 
 	return render_to_response("routes.html",

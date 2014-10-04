@@ -48,7 +48,8 @@ INSTALLED_APPS = (
     'routes',
     'trackingPoints',
     'trackingRoutes',
-    'tastypie'
+    'tastypie',
+    'userroles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -58,6 +59,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+USER_ROLES = (
+    'admin',
+    'manager',
 )
 
 ROOT_URLCONF = 'Main.urls'
@@ -114,6 +120,3 @@ if DEBUG:
         os.path.join(os.path.dirname(BASE_DIR), "static", "static"),
         os.path.join(os.path.dirname(BASE_DIR), "static", "bootstrap"),
     )
-    
-    
-    

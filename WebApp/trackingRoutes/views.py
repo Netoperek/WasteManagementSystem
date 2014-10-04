@@ -27,9 +27,6 @@ def trackAll(request):
             routesLat.append(latsList)
             routesLon.append(lonsList)
 
-        print routesLat
-        print routesLon
-
 	context = RequestContext(request)
 	return render_to_response("trackAll.html",
 								locals(),

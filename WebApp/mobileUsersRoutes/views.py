@@ -46,8 +46,6 @@ def setRoute(request, num):
                 if _id:
 			date = request.POST['date' + str(routeId)]
                         if date:
-                            print "here"
-                            print date
                             route = Route.objects.get(pk=routeId)	
                             mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
                             mobileUserRoute.save()
@@ -105,8 +103,6 @@ def trackMobileUser(request, num):
         routeQuery = "select * from \"mobileUsersRoutes_mobileuserroute\" where date = '" + now + "' and  \"mobileUser_id\" = '" + num +   "';"
 	routes = MobileUserRoute.objects.raw(routeQuery)
 
-        print "here"
-        print list(routes)
 	if len(list(routes)) != 0 :
 		routeId = routes[0].trackingRoute_id
                 

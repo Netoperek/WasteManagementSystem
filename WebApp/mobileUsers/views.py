@@ -3,13 +3,16 @@ from django.http import HttpResponseRedirect, HttpRequest
 from .forms import MobileUserForm
 from mobileUsers.models import MobileUser
 from routes.models import Route
+from userroles import roles
+from userroles.decorators import role_required
 
 def mobileUsers(request):
 	mobileUsers = MobileUser.objects.all()
 	
 	_id = request.POST.get("remove", "")
+        removed = False
 	if _id:
-		MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
+                removed = remove(request, _id)
 	else:
 		if request.method == 'POST':
 			Id = request.POST['id']
@@ -27,6 +30,7 @@ def mobileUsers(request):
 								locals(),
 								context_instance=RequestContext(request))
 
+@role_required(roles.admin)
 def addMobileUser(request):
 
 	form = MobileUserForm(request.POST or None)
@@ -39,3 +43,7 @@ def addMobileUser(request):
 	return render_to_response("addMobileUser.html",
 								locals(),
 								context_instance=RequestContext(request))
+@role_required(roles.admin)
+def remove(request, _id):
+        MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
+        return True

@@ -8,10 +8,14 @@
         </h1>
     </div>
 
+
     <form method="POST" action=""> {% csrf_token %}
+        <input type="radio" name="role" value="admin">Administrator<br>
+        <input type="radio" name="role" value="manager" checked="checked">Menadżer<br>
         {{ form.as_p }}
         <input type='submit' value = "Dodaj " class="btn btn-primary btn-lg">
     </form> 
+
     {% else %}
     <div class="page-header">
         <h1>Musisz być zalogowany !<br>

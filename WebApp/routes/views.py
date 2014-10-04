@@ -1,6 +1,5 @@
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest
-
 from routes.models import Route
 from points.models import Point
 from mobileUsers.models import MobileUser

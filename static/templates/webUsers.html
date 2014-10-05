@@ -18,7 +18,7 @@
             <table class="table table-striped">
                 <thead>
                     <th>#</th>
-                    <th>username</th>
+                    <th>Nazwa</th>
                     <th>Szukaj</th>
                 </thead>
                 <tbody>
@@ -38,9 +38,10 @@
         		<thead>
         			<tr>
         				<th>#</th>
-        				<th>Nazwa użytkownika</th>
-        				<th>Usuń użytkownika</th>
-        				<th>Modyfikuj dane użytkownika</th>
+        				<th>Nazwa</th>
+        				<th>Rola</th>
+        				<th>Usuń</th>
+        				<th>Modyfikuj dane</th>
         			</tr>	
         		</thead>
         		<tbody>
@@ -48,6 +49,7 @@
         		<tr>
         			<td>{{ webUser.id }}</td>
 					<td>{{ webUser.username }}</td>
+					<td>{{ webUser.role }}</td>
 					<td>
                     <form action="" method="POST"> 
                         {% csrf_token %}
@@ -56,7 +58,7 @@
                     </form>
 					</td>
 					<td>
-                    <form action="" > 
+                    <form action="" method="POST" > 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-cog"></span>
                         <input type="submit" value="Modyfikuj {{ webUser.username }} {{ webUser.id }}" name="modify" class="btn btn-primary">

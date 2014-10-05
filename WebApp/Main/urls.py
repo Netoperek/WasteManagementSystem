@@ -36,6 +36,7 @@ urlpatterns = patterns('',
 	url(r'^mobileUsersRoutes(?P<num>\d+)$','mobileUsersRoutes.views.mobileUsersRoutes'),
 	url(r'^trackMobileUser(?P<num>\d+)$', 'mobileUsersRoutes.views.trackMobileUser', name='trackMobileUser'),
 	url(r'^mobileUserHistory(?P<num>\d+)$', 'mobileUsersRoutes.views.mobileUserHistory', name='mobileUserHistory'),
+	url(r'^modifyMobileUser(?P<num>\d+)$', 'mobileUsers.views.modifyMobileUser', name='modifyMobileUser'),
 
 	#routes
 	url(r'^routes$', 'routes.views.routes', name='routes'),
@@ -51,6 +52,7 @@ urlpatterns = patterns('',
 
 	#webAppUsers
 	url(r'^webAppUsers$', 'webAppUser.views.webAppUsers', name='webAppUsers'),
+	url(r'^modifyWebAppUser(?P<num>\d+)$', 'webAppUser.views.modifyWebAppUser', name='modifyWebAppUser'),
 	url(r'^addWebUser$', 'webAppUser.views.addWebUser', name='addWebUser'),
 
 	#tastyPie

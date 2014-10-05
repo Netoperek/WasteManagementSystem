@@ -10,9 +10,13 @@ def mobileUsers(request):
 	mobileUsers = MobileUser.objects.all()
 	
 	_id = request.POST.get("remove", "")
+        _modify = request.POST.get("modify", "")
         removed = False
 	if _id:
                 removed = remove(request, _id)
+        elif _modify:
+            num = int(_modify.split(' ')[2])
+            return HttpResponseRedirect('modifyMobileUser' + str(num))
 	else:
 		if request.method == 'POST':
 			Id = request.POST['id']
@@ -47,3 +51,20 @@ def addMobileUser(request):
 def remove(request, _id):
         MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
         return True
+
+@role_required(roles.admin)
+def modifyMobileUser(request, num):
+    mobileUser = MobileUser.objects.get(pk=num)
+    if request.method == 'POST':
+	password = request.POST['password']
+	name = request.POST['name']
+        if password:
+            mobileUser.password = password
+        if name:
+            mobileUser.login = name
+        mobileUser.save()
+    
+        return HttpResponseRedirect('mobileUsers')
+    return render_to_response(  "modifyMobileUser.html",
+                                locals(),
+				context_instance=RequestContext(request))

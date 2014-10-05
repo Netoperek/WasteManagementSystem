@@ -9,7 +9,6 @@ def newRoute(request):
 	return render_to_response("newRoute.html",
 								locals(),
 								context_instance=RequestContext(request))
-
 def getLatitude(point):
 	return float(point.split('#')[0])
 

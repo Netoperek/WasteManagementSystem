@@ -36,3 +36,7 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect("home.html")
 
+def wrongPriviliges(request):
+	return render_to_response("wrongPriviliges.html",
+								locals(),
+								context_instance=RequestContext(request))

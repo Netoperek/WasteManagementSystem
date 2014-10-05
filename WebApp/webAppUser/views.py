@@ -36,7 +36,9 @@ def webAppUsers(request):
 	_id = request.POST.get("remove", "")
         _modify = request.POST.get('modify',"")
 	if _id:
-		remove(request, _id)
+            result = remove(request, _id)
+            if result != True:
+                return HttpResponseRedirect('wrongPriviliges')
         elif _modify:
             num = int(_modify.split(' ')[2])
             return HttpResponseRedirect('modifyWebAppUser' + str(num))
@@ -63,6 +65,7 @@ def webAppUsers(request):
 @role_required(roles.admin)
 def remove(request, _id):
    User.objects.filter(id=int(_id.split(' ')[2])).delete()
+   return True
 
 @role_required(roles.admin)
 def modifyWebAppUser(request, num):

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+    
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="page-header">
+      <h1>Modyfikuj użytkownika webowego <br>
+            <small>Użytkownik {{webUser}}</small>
+        </h1>
+    </div>
+
+
+    <form method="POST" action=""> {% csrf_token %}
+        Nazwa: <input type="text" name="name" value=""> <br>
+        Hasło: <input type="text" name="password" value=""> <br>
+        <input type="radio" name="role" value="admin">Administrator<br>
+        <input type="radio" name="role" value="manager" checked="checked">Menadżer<br>
+        <input type="submit" value="Zatwierdź" class="btn btn-primary"/>
+    </form> 
+
+    {% else %}
+    <div class="page-header">
+        <h1>Musisz być zalogowany !<br>
+        </h1>
+    </div>
+    {% endif %}
+{% endblock %}

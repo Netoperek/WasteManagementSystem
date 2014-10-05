@@ -11,9 +11,11 @@ def mobileUsers(request):
 	
 	_id = request.POST.get("remove", "")
         _modify = request.POST.get("modify", "")
-        removed = False
 	if _id:
-                removed = remove(request, _id)
+            result = remove(request, _id)
+            if result != True:
+                return HttpResponseRedirect('wrongPriviliges')
+
         elif _modify:
             num = int(_modify.split(' ')[2])
             return HttpResponseRedirect('modifyMobileUser' + str(num))
@@ -24,7 +26,6 @@ def mobileUsers(request):
 
 			if Login == None:
 				Login = r".*"
-
 			if Id:
 				mobileUsers =  MobileUser.objects.filter(pk = Id, login__regex=Login)
 			else:

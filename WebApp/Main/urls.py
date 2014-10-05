@@ -72,5 +72,8 @@ urlpatterns = patterns('',
         url(r'^loginPage$','Login.views.loginWebAppUser'),
 	url(r'^invalidLogin$','Login.views.invalidLogin'),
 	url(r'^logoutPage$', 'Login.views.user_logout', name='logout'),
+
+        #roles
+        url(r'^wrongPriviliges$','Login.views.wrongPriviliges'),
 	
 )

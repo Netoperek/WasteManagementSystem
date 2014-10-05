@@ -8,20 +8,46 @@ from trackingPoints.models import TrackingPoint
 from address.models import Address
 import datetime
 
-# Create your views here.
-
-
 def mobileUsersRoutes(request, num):
 	_id = request.POST.get("unset", "")
+	query = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
+	routes = Route.objects.raw(query)
+        userId = num
+        routesResult = []
+        routesId = []
+        routesDate = []
+        queryDate = []
+
 	if _id:
 		MobileUserRoute.objects.filter(route_id=int(_id.split('#')[1])).delete()
+	else:
+		if request.method == 'POST':
+			Id = request.POST['Id']
+			Name = request.POST['Name']
+			Date = request.POST['Date']
+                        routesSet = request.POST.get("set","")
 
-	query = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
+			if Id:
+                            queryId = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' and routes_route.id = ' +str(Id) + ';'
+                            routes = Route.objects.raw(queryId)
+                        else:
+                            queryId = query
 
-	routes = Route.objects.raw(query)
+                        if Date:
+                            queryDate = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' and date = \'' +str(Date) + '\' intersect ' + str(queryId) + ' ;'
+                            routes = Route.objects.raw(queryDate)
+                        else:
+                            queryDate = query
+
+                        if Name:
+                            queryName = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' and name = \'' +str(Name) + '\' intersect ' + str(queryDate) + ' ;'
+                            routes = Route.objects.raw(queryName)
+
 	return render_to_response("mobileUsersRoutes.html",
 								locals(),
 								context_instance=RequestContext(request))
+
+
 def passDate(request):
 	return render_to_response("passDate.html",
 				locals(),

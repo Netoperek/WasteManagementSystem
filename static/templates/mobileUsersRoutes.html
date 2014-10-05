@@ -9,6 +9,33 @@
         </h1>
     </div>
 
+   <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+          </div>
+          <form id="login_form" method="post" action="mobileUsersRoutes{{userId}}">
+      {% csrf_token %}
+          <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                      <th>#</th>
+                      <th>Data wykonania</th>
+                      <th>Nazwa</th>
+                      <th>Szukaj</th>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td><input type="text" name="Id" value="" size="10" /> </td>
+                          <td><input type="text" name="Date" value="" size="10" /> </td>
+                          <td><input type="text" name="Name" value="" size="10" /></td>
+                          <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
+                      </tr>
+                  </tbody>
+              </table>
+      </div>
+      </form>
+  </div>
+
     <div class="table-responsive">
     	<table class="table table-striped">
         	<thead>

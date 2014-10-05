@@ -18,7 +18,10 @@ def routes(request):
         routesNotSet = []
         setRoutes = []
 
-
+        for route in routes:
+            mobileUserRoutes = MobileUserRoute.objects.filter(route_id = route.id)
+            if mobileUserRoutes:
+                routeIsSet.append(route.id)
 
 	_id = request.POST.get("remove", "")
 	if _id:
@@ -45,7 +48,6 @@ def routes(request):
                                 routesNotSet.append(route)
                             else:
                                 setRoutes.append(route)
-                                routeIsSet.append(route.id)
                       
                         if routesSet == "set":
                                 routes = routesNotSet

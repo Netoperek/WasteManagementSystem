@@ -7,6 +7,12 @@ from userroles.models import set_user_role
 from userroles import roles
 from userroles.decorators import role_required
 
+def setRole(user,role):
+    if role == "admin":
+        set_user_role(user, roles.admin)
+    else:
+        set_user_role(user, roles.manager)
+
 @role_required(roles.admin)
 def addWebUser(request):
 	if request.method == 'POST':
@@ -14,11 +20,7 @@ def addWebUser(request):
 		form = UserCreationForm(request.POST)
 		if form.is_valid():
 			new_user = form.save()
-                        if role == "admin":
-                            set_user_role(new_user, roles.admin)
-                        else:
-                            set_user_role(new_user, roles.manager)
-
+                        setRole(new_user, role)
                         return HttpResponseRedirect('webAppUsers')
 
 	else:
@@ -32,9 +34,12 @@ def webAppUsers(request):
 	webUsers = User.objects.all()
 
 	_id = request.POST.get("remove", "")
+        _modify = request.POST.get('modify',"")
 	if _id:
 		remove(request, _id)
-
+        elif _modify:
+            num = int(_modify.split(' ')[2])
+            return HttpResponseRedirect('modifyWebAppUser' + str(num))
 	else:
 		if request.method == 'POST':
 			Id = request.POST['id']
@@ -50,10 +55,32 @@ def webAppUsers(request):
 				webUsers =  User.objects.filter(username__regex=Login)
 
 	return render_to_response("webUsers.html",
-								locals(),
-								context_instance=RequestContext(request))
+                                   locals(),
+				   context_instance=RequestContext(request))
+
 #To use decorator request arg has to be passed
 #
 @role_required(roles.admin)
 def remove(request, _id):
-        User.objects.filter(id=int(_id.split(' ')[2])).delete()
+   User.objects.filter(id=int(_id.split(' ')[2])).delete()
+
+@role_required(roles.admin)
+def modifyWebAppUser(request, num):
+    webUser =  User.objects.get(pk = num)
+    if request.method == 'POST':
+	role = request.POST['role']
+	name = request.POST['name']
+	password = request.POST['password']
+        if role:
+            setRole(webUser, role)
+        if name:
+            webUser.username = name
+        if password:
+            webUser.set_password(password)
+        webUser.save()
+    
+        return HttpResponseRedirect('webAppUsers')
+        
+    return render_to_response("modifyWebAppUser.html",
+			      locals(),
+			      context_instance=RequestContext(request))

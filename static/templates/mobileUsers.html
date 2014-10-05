@@ -4,7 +4,7 @@
     {% if user.is_authenticated %}
     <div class="page-header">
         <h1>Użytkownicy aplikacji mobilnej<br>
-            <small>Lista użytkowników korzystjących z aplikacji mobilnej</small>
+            <small>Lista użytkowników korzystających z aplikacji mobilnej</small>
         </h1>
     </div>
 
@@ -39,11 +39,12 @@
         			<tr>
         				<th>#</th>
         				<th>Login</th>
-        				<th>Usuń użytkownika</th>
-        				<th>Modyfikuj dane użytkownika</th>
-						    <th>Dodaj trasę użytkownikowi</th>
-                <th>Trasy użytkownika</th>
-                <th>Śledź użytkownika</th>
+        				<th>Hasło</th>
+        				<th>Usuń</th>
+        				<th>Modyfikuj dane</th>
+						    <th>Dodaj trasę</th>
+                <th>Trasy</th>
+                <th>Śledź</th>
                 <th>Historia tras</th>
         			</tr>	
         		</thead>
@@ -51,34 +52,35 @@
         {% for mobileUser in mobileUsers %}
         		<tr>
         			<td>{{ mobileUser.id }}</td>
-					<td>{{ mobileUser.login }}</td>
-					<td>
-                    <form action="" method="POST"> 
-                        {% csrf_token %}
-                        <input type="submit" value="Usuń {{ mobileUser.login }} {{ mobileUser.id }}" name="remove" class="btn btn-primary">
-                    </form>
-					</td>
-					<td>
-                    <form action="" > 
-                        {% csrf_token %}
-                        <input type="submit" value="Modyfikuj {{ mobileUser.login }} {{ mobileUser.id }}" name="modify" class="btn btn-primary">
-                    </form>
-					</td>
-					<td>
-                    <form action="" method="POST"> 
-                        {% csrf_token %}
-                        <a href="setRoute{{ mobileUser.id }}" class="btn btn-primary">Dodaj trasę {{ mobileUser.login }} {{ mobileUser.id }}</a>
-                    </form>
-					</td>
-                    <td>
-                         <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobacz {{ mobileUser.login }}  {{ mobileUser.id }} trasy</a>
-                    </td>
-                    <td>
-                         <a href="trackMobileUser{{ mobileUser.id }}" class="btn btn-primary">Śledź {{ mobileUser.login }}  {{ mobileUser.id }} </a>
-                    </td>
-                    <td>
-                         <a href="mobileUserHistory{{ mobileUser.id }}" class="btn btn-primary">Historia {{ mobileUser.login }}  {{ mobileUser.id }} </a>
-                    </td>
+              <td>{{ mobileUser.login }}</td>
+              <td>{{ mobileUser.password }}</td>
+              <td>
+                        <form action="" method="POST"> 
+                            {% csrf_token %}
+                            <input type="submit" value="Usuń {{ mobileUser.login }} {{ mobileUser.id }}" name="remove" class="btn btn-primary">
+                        </form>
+              </td>
+              <td>
+                        <form action="" method="POST"> 
+                            {% csrf_token %}
+                            <input type="submit" value="Modyfikuj {{ mobileUser.login }} {{ mobileUser.id }}" name="modify" class="btn btn-primary">
+                        </form>
+              </td>
+              <td>
+                        <form action="" method="POST"> 
+                            {% csrf_token %}
+                            <a href="setRoute{{ mobileUser.id }}" class="btn btn-primary">Dodaj trasę {{ mobileUser.login }} {{ mobileUser.id }}</a>
+                        </form>
+              </td>
+              <td>
+                   <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobacz {{ mobileUser.login }}  {{ mobileUser.id }} trasy</a>
+              </td>
+              <td>
+                   <a href="trackMobileUser{{ mobileUser.id }}" class="btn btn-primary">Śledź {{ mobileUser.login }}  {{ mobileUser.id }} </a>
+              </td>
+              <td>
+                   <a href="mobileUserHistory{{ mobileUser.id }}" class="btn btn-primary">Historia {{ mobileUser.login }}  {{ mobileUser.id }} </a>
+              </td>
         		</tr>
         {% endfor %}
         		</tbody>

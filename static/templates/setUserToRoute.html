@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+    
+{% block content %}
+    {% if user.is_authenticated %}
+
+      {% if notSet %}
+      <div class="page-header">
+        <h1>Przyporządkuj trasę : {{routeToSet.name}} <br>
+              <small>Lista użytkowników korzystjących z aplikacji mobilnej</small>
+          </h1>
+      </div>
+
+       <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+          </div>
+          <form id="login_form" method="post" action="setUserToRoute{{routeId}}">
+      {% csrf_token %}
+      <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                      <th>#</th>
+                      <th>Login</th>
+                      <th>Szukaj</th>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td><input type="text" name="id" value="" size="10" /> </td>
+                          <td><input type="text" name="Login" value="" size="10" /></td>
+                          <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
+                      </tr>
+                  </tbody>
+              </table>
+      </div>
+      </form>
+      </div>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Login</th>
+                  <th>Przyporządkuj użytkownikowi trasę</th>
+                  <th>Z datą</th>
+                </tr>	
+              </thead>
+              <tbody>
+          {% for mobileUser in mobileUsers %}
+              <tr>
+                <td>{{ mobileUser.id }}</td>
+                <td>{{ mobileUser.login }}</td>
+                <td>
+                  <form action="" method="POST"> 
+                    {% csrf_token %}
+                    <input type="submit" value="Przyporządkuj#{{mobileUser.id}}" name="set" class="btn btn-primary">
+                    <td><input type="text" name="date" value="" size="9" required/></td>    
+                  </form>
+                </td>
+              </tr>
+          {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="page-header">
+            <h1>Nie można przyporządkować tej trasy</h1>
+          </div>
+
+          <div class="alert alert-warning">
+            Ta trasa jest już przyporządkowana
+          </div>
+
+          {% endif %}
+        {% else %}
+        <div class="page-header">
+            <h1>Musisz być zalogowany !<br></h1>
+        </div>
+        {% endif %}
+    
+{% endblock %}

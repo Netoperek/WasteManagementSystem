@@ -1,4 +1,5 @@
 from tastypie.resources import ModelResource
+from tastypie.authentication import BasicAuthentication
 from tastypie.constants import ALL
 from tastypie.authorization import Authorization
 from tastypie import fields
@@ -14,6 +15,7 @@ class PointResource(ModelResource):
 		queryset = Point.objects.all()
 		resource_name = 'point'
 		filtering = {"id" : ALL, "route" : ALL, "route__mobileUser" : ALL, "address" : ALL} 
+                authentication = BasicAuthentication()
 		authorization = Authorization()
 
 	def alter_list_data_to_serialize(self, request, data):

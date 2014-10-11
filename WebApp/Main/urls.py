@@ -11,6 +11,7 @@ from trackingRoutes.api import TrackingRouteResource
 from address.api import AddressResource
 from mobileUsersRoutes.api import MobileUsersRouteResource
 from mobileUsers.api import MobileUserResource
+from formulars.api import FormularResource
 
 admin.autodiscover()
 
@@ -22,6 +23,7 @@ trackingRoute_resource = TrackingRouteResource()
 mobileUsersRoutes_resource = MobileUsersRouteResource()
 address_resource = AddressResource()
 mobileUser_resource = MobileUserResource()
+formular_resource = FormularResource()
 
 
 urlpatterns = patterns('',
@@ -64,6 +66,7 @@ urlpatterns = patterns('',
         url(r'^api/', include(mobileUsersRoutes_resource.urls)),
         url(r'^api/', include(trackingPoint_resource.urls)),
         url(r'^api/', include(trackingRoute_resource.urls)),
+        url(r'^api/', include(formular_resource.urls)),
         url(r'^loginPage','Login.views.loginWebAppUser'),
 	url(r'^invalidLogin','Login.views.invalidLogin'),
 	url(r'^logoutPage', 'Login.views.user_logout', name='logout'),

@@ -38,7 +38,7 @@
         		<thead>
         			<tr>
         				<th>#</th>
-        				<th>Nazwa</th>
+        				<th>Login</th>
         				<th>Rola</th>
         				<th>Usuń</th>
         				<th>Modyfikuj dane</th>
@@ -48,8 +48,8 @@
         {% for webUser in webUsers %}
         		<tr>
         			<td>{{ webUser.id }}</td>
-					<td>{{ webUser.username }}</td>
-					<td>{{ webUser.role }}</td>
+					<td>{{ webUser.user }}</td>
+					<td>{{ webUser.user.role }}</td>
 					<td>
                     <form action="" method="POST"> 
                         {% csrf_token %}

@@ -5,6 +5,10 @@ from mobileUsers.models import MobileUser
 from routes.models import Route
 from userroles import roles
 from userroles.decorators import role_required
+from django.contrib.auth.forms import UserCreationForm
+from userroles.models import set_user_role
+from userroles import roles
+from userroles.decorators import role_required
 
 def mobileUsers(request):
 	mobileUsers = MobileUser.objects.all()
@@ -37,17 +41,26 @@ def mobileUsers(request):
 
 @role_required(roles.admin)
 def addMobileUser(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            set_user_role(new_user, roles.mobile)
+            mobileUser = MobileUser(user = new_user)
+            mobileUser.save()
 
-	form = MobileUserForm(request.POST or None)
+            return HttpResponseRedirect('mobileUsers')
+        else:
+            return render_to_response("addMobileUser.html",
+                                        locals(),
+                                        context_instance=RequestContext(request))
+            
+    else:
+        form = UserCreationForm(request.POST)
+        return render_to_response("addMobileUser.html",
+                                    locals(),
+                                    context_instance=RequestContext(request))
 
-	if form.is_valid():
-		save_it = form.save(commit=False)
-		save_it.save()
-		return HttpResponseRedirect('mobileUsers')
-
-	return render_to_response("addMobileUser.html",
-								locals(),
-								context_instance=RequestContext(request))
 @role_required(roles.admin)
 def remove(request, _id):
         MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()

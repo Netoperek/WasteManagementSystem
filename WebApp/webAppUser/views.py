@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from userroles.models import set_user_role
 from userroles import roles
 from userroles.decorators import role_required
+from webAppUser.models import WebAppUser
 
 def setRole(user,role):
     if role == "admin":
@@ -21,17 +22,22 @@ def addWebUser(request):
 		if form.is_valid():
 			new_user = form.save()
                         setRole(new_user, role)
+                        webAppUser = WebAppUser(user = new_user)
+                        webAppUser.save()
+                        
                         return HttpResponseRedirect('webAppUsers')
-
+                else:
+                        return render_to_response("addWebUser.html",
+                                                    locals(),
+                                                    context_instance=RequestContext(request))
 	else:
 		form = UserCreationForm(request.POST)
-
                 return render_to_response("addWebUser.html",
-                                                                        locals(),
-                                                                        context_instance=RequestContext(request))
+                                            locals(),
+                                            context_instance=RequestContext(request))
 
 def webAppUsers(request):
-	webUsers = User.objects.all()
+	webUsers = WebAppUser.objects.all()
 
 	_id = request.POST.get("remove", "")
         _modify = request.POST.get('modify',"")

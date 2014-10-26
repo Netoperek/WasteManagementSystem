@@ -16,5 +16,5 @@ class MobileUserResource(ModelResource):
 		authorization = Authorization()
 		authentication = BasicAuthentication()
 
-	def alter_list_data_to_serialize(self, request, data):
-		return data['objects']
+    def alter_list_data_to_serialize(self, request, data):
+        return data['objects']

@@ -39,7 +39,6 @@
         			<tr>
         				<th>#</th>
         				<th>Login</th>
-        				<th>Hasło</th>
         				<th>Usuń</th>
         				<th>Modyfikuj dane</th>
 						    <th>Dodaj trasę</th>
@@ -52,8 +51,7 @@
         {% for mobileUser in mobileUsers %}
         		<tr>
         			<td>{{ mobileUser.id }}</td>
-              <td>{{ mobileUser.login }}</td>
-              <td>{{ mobileUser.password }}</td>
+              <td>{{ mobileUser.user }}</td>
               <td>
                         <form action="" method="POST"> 
                             {% csrf_token %}

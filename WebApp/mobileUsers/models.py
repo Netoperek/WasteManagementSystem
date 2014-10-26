@@ -1,9 +1,8 @@
 from django.db import models
-from django.utils.encoding import smart_unicode
+from django.contrib.auth.models import User
 
 class MobileUser(models.Model):
-	login = models.CharField(max_length = 30, null=False, blank=False)
-	password = models.CharField(max_length = 30, null=False, blank=False)
+    user = models.OneToOneField(User)
 
-	def __unicode__(self):
-		return smart_unicode(self.login)
+    def __unicode__(self):
+        return self.user.username

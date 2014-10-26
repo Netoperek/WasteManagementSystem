@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'formulars',
     'map',
     'mobileUsers',
+    'webAppUser',
     'mobileUsersRoutes',
     'points',
     'reports',
@@ -64,6 +65,7 @@ MIDDLEWARE_CLASSES = (
 USER_ROLES = (
     'admin',
     'manager',
+    'mobile'
 )
 
 ROOT_URLCONF = 'Main.urls'

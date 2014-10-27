@@ -12,9 +12,9 @@ class MobileUserResource(ModelResource):
 	class Meta:
 		queryset = MobileUser.objects.all()
 		resource_name = 'mobileUser'
-		filtering = {"id" : ALL, "login" : ALL} 
+		filtering = {"id" : ALL, "username" : ALL} 
 		authorization = Authorization()
 		authentication = BasicAuthentication()
 
-    def alter_list_data_to_serialize(self, request, data):
-        return data['objects']
+	def alter_list_data_to_serialize(self, request, data):
+        	return data['objects']

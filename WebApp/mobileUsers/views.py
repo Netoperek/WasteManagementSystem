@@ -46,7 +46,7 @@ def addMobileUser(request):
         if form.is_valid():
             new_user = form.save()
             set_user_role(new_user, roles.mobile)
-            mobileUser = MobileUser(user = new_user)
+            mobileUser = MobileUser(user = new_user, username = new_user.username)
             mobileUser.save()
 
             return HttpResponseRedirect('mobileUsers')

@@ -23,8 +23,8 @@ class MobileUsersRouteResource(ModelResource):
 		always_return_data = True
 		queryset = MobileUserRoute.objects.all()
 		resource_name = 'mobileUserRoute'
-		filtering = {"id" : ALL, "date" : ALL} 
-                authentication = BasicAuthentication()
+		filtering = {"id" : ALL, "date" : ALL, "mobileUser" : ALL} 
+		authentication = BasicAuthentication()
 		authorization = Authorization()
 
 	def alter_list_data_to_serialize(self, request, data):

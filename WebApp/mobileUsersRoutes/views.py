@@ -154,9 +154,10 @@ def trackMobileUser(request, num):
 
 
 def mobileUserHistory(request, num):
-	mobileUser = MobileUser.objects.get(pk=num)
+    mobileUser = MobileUser.objects.get(pk=num)
+    routeQuery = "select \"routes_route\".id, \"routes_route\".name, date  from \"routes_route\" inner join \"mobileUsersRoutes_mobileuserroute\" on (\"routes_route\".id = \"mobileUsersRoutes_mobileuserroute\".\"route_id\") where \"mobileUsersRoutes_mobileuserroute\".\"mobileUser_id\" =" +str(num)+"; "
+    routes = Route.objects.raw(routeQuery)
 
-	
-	return render_to_response("mobileUserHistory.html",
+    return render_to_response("mobileUserHistory.html",
 								locals(),
 								context_instance=RequestContext(request))

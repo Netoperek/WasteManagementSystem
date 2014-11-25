@@ -67,6 +67,13 @@ def routeDetails(request, num):
 								locals(),
 								context_instance=RequestContext(request))
 
+def routeHistoryDetails(request, num):
+	routeId= num
+	points = Point.objects.filter(route=num)
+	return render_to_response("routeHistoryDetails.html",
+								locals(),
+								context_instance=RequestContext(request))
+
 def routeOnMap(request, num):
 	routeId= num
 	routeName = Route.objects.filter(pk=num).values('name')[0]

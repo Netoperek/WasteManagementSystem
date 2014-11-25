@@ -40,21 +40,22 @@
         			</tr>	
         		</thead>
         		<tbody>
-        		<tr>
-    {% for route in routes %}
+                {% for route in routes %}
+                <tr>
          			<td>{{ route.id }}</td>
-					<td>{{ route.date }}</td>
-                    <td>
-                        <a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
-                    </td>
+					<td>{{ route.data }}</td>
                     <td>
                         <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na mapie#{{ route.id }}</a>
                     </td>
+                    <td>
+                        <a href="routeHistoryDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
+                    </td>
         		</tr>
+                {% endfor %}
         		</tbody>
         	</table>
         </div>
-    {% endfor %}
+    
     {% else %}
         <div class="page-header">
             <h1>Musisz być zalogowany !<br></h1>

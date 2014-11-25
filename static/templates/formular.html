@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+    
+{% block content %}
+    <div class="page-header">
+        <h1>Formularz<br>
+        </h1>
+    </div>
+
+    <div class="table-responsive">
+    	<table class="table table-striped">
+        	<thead>
+        		<tr>
+        			<th>#</th>
+        			<th>Ilość koszy na śmieci</th>
+        			<th>Wypełnienie</th>
+        		</tr>	
+        	</thead>
+        	<tbody>
+        	{% for formular in formulars %}
+        	<tr>
+        		<td>{{ formular.id }}</td>
+				<td>{{ formular.amountOfBins }}</td>
+                <td>{{ formular.percentageFilling }}</td>
+        	</tr>
+        	{% endfor %}
+        	</tbody>
+        </table>
+    </div>
+{% endblock %}

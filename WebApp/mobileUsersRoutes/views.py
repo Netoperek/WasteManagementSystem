@@ -62,7 +62,6 @@ def setRoute(request, num):
         _id = request.POST.get("set", "")
         if _id:
             routeId = request.POST.get("_id")
-            print routeId
         
         if MobileUserRoute.objects.filter(route_id = routeId):
                 notSet = False
@@ -78,7 +77,6 @@ def setRoute(request, num):
                             mobileUserRoute.save()
                             return HttpResponseRedirect('mobileUsersRoutes' + str(num))
                         else:
-                            print date
                             return HttpResponseRedirect('passDate')
 
 	return render_to_response("setRoute.html",
@@ -168,9 +166,7 @@ def mobileUserHistory(request, num):
         routesList.append([r.id, r.name])
     for m in mobileUserRoutes:
         mobileUserRoutesList.append(m.date.strftime('%Y-%m-%d'))
-    print mobileUserRoutesList
     routesWithDate = dict(zip(mobileUserRoutesList, routesList)).items()
-    print routesWithDate
     return render_to_response("mobileUserHistory.html",
 								locals(),
 								context_instance=RequestContext(request))

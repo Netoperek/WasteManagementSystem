@@ -72,7 +72,6 @@ def webAppUsers(request):
                                 if user_exists(user.id):
                                     webUser = WebAppUser.objects.get(user_id = user.id)
                                     webUsers.append(webUser)
-                            print webUsers
 
 	return render_to_response("webUsers.html",
                                    locals(),
@@ -91,8 +90,10 @@ def username_taken(username):
 @role_required(roles.admin)
 def remove(request, q):
    _id = request.POST.get("_id")
-   print _id    
-   User.objects.filter(id=_id).delete()
+   web_app_user = WebAppUser.objects.get(id=_id)
+   user_id = web_app_user.user_id
+   User.objects.filter(id=user_id).delete()
+   web_app_user.delete()
    return True
 
 @role_required(roles.admin)

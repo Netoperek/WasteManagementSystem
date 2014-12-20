@@ -3,17 +3,22 @@
 {% block content %}
     {% if user.is_authenticated %}
     <div class="page-header">
-      <h1>Modyfikuj użytkownika webowego <br>
-            <small>Użytkownik {{webUser}}</small>
+      <h1>Modyfikuj użytkownika webowego: {{webUser}}<br>
+            <small>zostaw puste pole aby nie modyfikować</small>
         </h1>
     </div>
 
 
     <form method="POST" action=""> {% csrf_token %}
-        Nazwa: <input type="text" name="name" value=""> <br>
-        Hasło: <input type="text" name="password" value=""> <br>
+        <b>Login:</b> <input type="text" name="name" value="" size="20" />
+        <br />
+        <br />
+        <b>Hasło:</b> <input type="password" name="password" value="" size="20" />
+        <br />
+        <br />
         <input type="radio" name="role" value="admin">Administrator<br>
         <input type="radio" name="role" value="manager" checked="checked">Menadżer<br>
+        <br />
         <input type="submit" value="Zatwierdź" class="btn btn-primary"/>
     </form> 
 

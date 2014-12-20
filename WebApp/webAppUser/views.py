@@ -39,14 +39,14 @@ def addWebUser(request):
 def webAppUsers(request):
 	webUsers = WebAppUser.objects.all()
 
-	_id = request.POST.get("remove", "")
-        _modify = request.POST.get('modify',"")
+	_id = request.POST.get("_id")
+        _modify = request.POST.get('_modify')
 	if _id:
             result = remove(request, _id)
             if result != True:
                 return HttpResponseRedirect('wrongPriviliges')
         elif _modify:
-            num = int(_modify.split(' ')[2])
+            num = _modify
             return HttpResponseRedirect('modifyWebAppUser' + str(num))
 	else:
 		if request.method == 'POST':
@@ -69,8 +69,10 @@ def webAppUsers(request):
 #To use decorator request arg has to be passed
 #
 @role_required(roles.admin)
-def remove(request, _id):
-   User.objects.filter(id=int(_id.split(' ')[2])).delete()
+def remove(request, q):
+   _id = request.POST.get("_id")
+   print _id    
+   User.objects.filter(id=_id).delete()
    return True
 
 @role_required(roles.admin)

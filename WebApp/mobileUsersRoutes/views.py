@@ -9,7 +9,7 @@ from address.models import Address
 import datetime
 
 def mobileUsersRoutes(request, num):
-	_id = request.POST.get("unset", "")
+	_id = request.POST.get("_id")
 	query = 'select routes_route.id, routes_route.name, date from routes_route inner join "mobileUsersRoutes_mobileuserroute" on (routes_route.id = "mobileUsersRoutes_mobileuserroute".route_id) where "mobileUsersRoutes_mobileuserroute"."mobileUser_id" =' +str(num)+' ;'
 	routes = Route.objects.raw(query)
         userId = num
@@ -19,7 +19,7 @@ def mobileUsersRoutes(request, num):
         queryDate = []
 
 	if _id:
-		MobileUserRoute.objects.filter(route_id=int(_id.split('#')[1])).delete()
+		MobileUserRoute.objects.filter(route_id=_id).delete()
 	else:
 		if request.method == 'POST':
 			Id = request.POST['Id']
@@ -61,7 +61,8 @@ def setRoute(request, num):
         notSet = True
         _id = request.POST.get("set", "")
         if _id:
-            routeId = int(_id.split('#')[1])
+            routeId = request.POST.get("_id")
+            print routeId
         
         if MobileUserRoute.objects.filter(route_id = routeId):
                 notSet = False
@@ -69,14 +70,15 @@ def setRoute(request, num):
                 mobileUser = MobileUser.objects.get(pk=num)
                 routes = Route.objects.all()
 
-                if _id:
-			date = request.POST['date' + str(routeId)]
+        if _id:
+			date = request.POST['date']
                         if date:
                             route = Route.objects.get(pk=routeId)	
                             mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
                             mobileUserRoute.save()
                             return HttpResponseRedirect('mobileUsersRoutes' + str(num))
                         else:
+                            print date
                             return HttpResponseRedirect('passDate')
 
 	return render_to_response("setRoute.html",

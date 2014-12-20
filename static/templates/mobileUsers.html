@@ -55,29 +55,27 @@
               <td>
                 <form action="" method="POST"> 
                     {% csrf_token %}
-                    <input type="submit" value="Usuń {{ mobileUser.username }} {{ mobileUser.id }}" name="remove" class="btn btn-primary">
+                    <input type="hidden" name="_id" value="{{ mobileUser.id }}">
+                    <input type="submit" value="Usuń" name="remove" class="btn btn-primary">
                 </form>
+              </td>
+              <td>
+                    <a href="modifyMobileUser{{ mobileUser.id }}" class="btn btn-primary">Modyfikuj</a>
               </td>
               <td>
                 <form action="" method="POST"> 
                     {% csrf_token %}
-                    <input type="submit" value="Modyfikuj {{ mobileUser.username }} {{ mobileUser.id }}" name="modify" class="btn btn-primary">
+                    <a href="setRoute{{ mobileUser.id }}" class="btn btn-primary">Dodaj trasę</a>
                 </form>
               </td>
               <td>
-                <form action="" method="POST"> 
-                    {% csrf_token %}
-                    <a href="setRoute{{ mobileUser.id }}" class="btn btn-primary">Dodaj trasę {{ mobileUser.username }} {{ mobileUser.id }}</a>
-                </form>
+                   <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobacz trasy</a>
               </td>
               <td>
-                   <a href="mobileUsersRoutes{{ mobileUser.id }}" class="btn btn-primary">Zobacz {{ mobileUser.username }}  {{ mobileUser.id }} trasy</a>
+                   <a href="trackMobileUser{{ mobileUser.id }}" class="btn btn-primary">Śledź</a>
               </td>
               <td>
-                   <a href="trackMobileUser{{ mobileUser.id }}" class="btn btn-primary">Śledź {{ mobileUser.username }}  {{ mobileUser.id }} </a>
-              </td>
-              <td>
-                   <a href="mobileUserHistory{{ mobileUser.id }}" class="btn btn-primary">Historia {{ mobileUser.username }}  {{ mobileUser.id }} </a>
+                   <a href="mobileUserHistory{{ mobileUser.id }}" class="btn btn-primary">Historia</a>
               </td>
         		</tr>
         {% endfor %}

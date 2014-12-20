@@ -58,14 +58,15 @@
                     <form action="" method="POST"> 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-trash"></span>
-                        <input type="submit" value="Usuń trasę użytkownikowi#{{route.id}}" name="unset" class="btn btn-primary">
+                        <input type="hidden" name="_id" value="{{route.id}}">
+                        <input type="submit" value="Usuń trasę użytkownikowi" name="unset" class="btn btn-primary">
                     </form>
 				</td>
 				<td>
-            		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
+            		<a href="routeDetails{{ route.id }}" class="btn btn-primary">Szczegóły</a>
 				</td>
                 <td>
-                    <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na Mapie#{{ route.id }}</a>
+                    <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na Mapie</a>
                 </td>
         	</tr>
         	{% endfor %}

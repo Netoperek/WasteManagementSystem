@@ -54,14 +54,16 @@
                     <form action="" method="POST"> 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-trash"></span>
-                        <input type="submit" value="Usuń {{ webUser.username }} {{ webUser.id }}" name="remove" class="btn btn-primary">
+                        <input type="hidden" name="_id" value="{{ webUser.id }}">
+                        <input type="submit" value="Usuń" name="remove" class="btn btn-primary">
                     </form>
 					</td>
 					<td>
                     <form action="" method="POST" > 
                         {% csrf_token %}
                         <span class="glyphicon glyphicon-cog"></span>
-                        <input type="submit" value="Modyfikuj {{ webUser.username }} {{ webUser.id }}" name="modify" class="btn btn-primary">
+                        <input type="hidden" name="_modify" value="{{ webUser.id }}">
+                        <input type="submit" value="Modyfikuj" name="modify" class="btn btn-primary">
                     </form>
 					</td>
         		</tr>

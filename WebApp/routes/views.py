@@ -23,9 +23,9 @@ def routes(request):
             if mobileUserRoutes:
                 routeIsSet.append(route.id)
 
-	_id = request.POST.get("remove", "")
+	_id = request.POST.get("_id", "")
 	if _id:
-		Route.objects.filter(id=int(_id.split('#')[1])).delete()
+		Route.objects.filter(id=_id).delete()
 
 	else:
 		if request.method == 'POST':

@@ -64,8 +64,10 @@ def addMobileUser(request):
                                     context_instance=RequestContext(request))
 
 @role_required(roles.admin)
-def remove(request, _id):
-        MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
+def remove(request, q):
+        #MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
+        _id = request.POST['_id']
+        MobileUser.objects.filter(id=_id).delete()
         return True
 
 def username_taken(username):

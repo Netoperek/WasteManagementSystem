@@ -33,6 +33,7 @@ urlpatterns = patterns('',
         url(r'^home.html$', 'home.views.home', name='home'),
 
         #mobileUsers
+	url(r'^wrongUsername$', 'mobileUsers.views.wrongUsername', name='wrongUsername'),
 	url(r'^mobileUsers$', 'mobileUsers.views.mobileUsers', name='mobileUsers'),
 	url(r'^addMobileUser$', 'mobileUsers.views.addMobileUser', name='addMobileUser'),
 	url(r'^mobileUsersRoutes(?P<num>\d+)$','mobileUsersRoutes.views.mobileUsersRoutes'),

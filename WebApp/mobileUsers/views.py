@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from userroles.models import set_user_role
 from userroles import roles
 from userroles.decorators import role_required
+from django.contrib.auth.models import User
 
 def mobileUsers(request):
     mobileUsers = MobileUser.objects.all()
@@ -67,19 +68,39 @@ def remove(request, _id):
         MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
         return True
 
+def username_taken(username):
+    names = User.objects.all().values('username')
+    for ele in names:
+        if username in ele.values():
+            return True
+
+    return False
+
 @role_required(roles.admin)
 def modifyMobileUser(request, num):
-    mobileUser = MobileUser.objects.get(pk=num)
+    mobile_user = MobileUser.objects.get(id = num)
+    user_id = mobile_user.user_id
+    user = User.objects.get(id = user_id)
     if request.method == 'POST':
 	password = request.POST['password']
 	name = request.POST['name']
         if password:
-            mobileUser.password = password
+            user.set_password(password)
         if name:
-            mobileUser.login = name
-        mobileUser.save()
+            if username_taken(name):
+                return HttpResponseRedirect('wrongUsername')
+            user.username = name
+            mobile_user.username = name
+        user.save()
+        mobile_user.save()
     
         return HttpResponseRedirect('mobileUsers')
     return render_to_response(  "modifyMobileUser.html",
                                 locals(),
 				context_instance=RequestContext(request))
+
+def wrongUsername(request):
+    return render_to_response(  "wrongUsername.html",
+                                locals(),
+				context_instance=RequestContext(request))
+

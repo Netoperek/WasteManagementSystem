@@ -4,15 +4,20 @@
     {% if user.is_authenticated %}
     <div class="page-header">
       <h1>Modyfikuj użytkownika mobilnego<br>
-            <small>Użytkownik {{mobileUser.login}}</small>
+            <small>Użytkownik: {{mobile_user.username}}</small>
         </h1>
     </div>
 
 
-    <form method="POST" action=""> {% csrf_token %}
-        Nazwa: <input type="text" name="name" value=""> <br>
-        Hasło: <input type="text" name="password" value=""> <br>
-        <input type="submit" value="Zatwierdź" class="btn btn-primary"/>
+    <form method="POST" action="">
+      {% csrf_token %}
+      <b>Login:</b> <input type="text" name="name" value="" size="20" />
+      <br />
+      <br />
+      <b>Hasło:</b> <input type="password" name="password" value="" size="20" />
+      <br />
+      <br />
+      <input type="submit" value="Zatwierdź" class="btn btn-primary"/>
     </form> 
 
     {% else %}

@@ -9,10 +9,14 @@
               <small>Wybierz trasę</small>
           </h1>
       </div>
-
-      <div class="table-responsive">
-          <form action="" method="POST"> 
-          <table class="table table-striped">   
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
+          </div>
+          <form id="login_form" method="post" action="mobileUsersRoutes{{userId}}">
+      {% csrf_token %}
+          <div class="table-responsive">
+              <table class="table table-striped">
               <thead>
                   <th>Data wykonania (rrrr-mm-dd):</th>
               </thead> 
@@ -20,6 +24,9 @@
                   <td><input type="text" name="doDate" value="" size="30" /></td>    
               </tbody>
           </table>
+        </div>
+        </form>
+        </div>
         <table class="table table-striped">
             <thead>
 
@@ -38,10 +45,10 @@
               <td>{{ route.id }}</td>
           <td>{{ route.name }}</td>        
                   
-          </form>
+          
           <form action="" method="POST"> 
             {% csrf_token %}
-              <input typ="hidden" name="_id" value="{{route.id}}">
+              <input type="hidden" name="_id" value="{{route.id}}">
           <td><input type="text" name="date" size="9" ></td> 
           <td><input type="submit" value="Ustaw trasę" name="set" class="btn btn-primary"></td>
              
@@ -56,7 +63,6 @@
             {% endfor %}
             </tbody>
           </table>
-      </div>
       {% else %}
       <div class="page-header">
         <h1>Nie można przyporządkować tej trasy</h1>

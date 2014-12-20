@@ -65,10 +65,13 @@ def addMobileUser(request):
 
 @role_required(roles.admin)
 def remove(request, q):
-        #MobileUser.objects.filter(id=int(_id.split(' ')[2])).delete()
-        _id = request.POST['_id']
-        MobileUser.objects.filter(id=_id).delete()
-        return True
+    _id = request.POST['_id']
+    mobile_user = MobileUser.objects.get(id=_id)
+    user_id = mobile_user.user_id
+    MobileUser.objects.filter(id=_id).delete()
+    User.objects.get(id=user_id).delete()
+    return True
+
 
 def username_taken(username):
     names = User.objects.all().values('username')
@@ -84,8 +87,8 @@ def modifyMobileUser(request, num):
     user_id = mobile_user.user_id
     user = User.objects.get(id = user_id)
     if request.method == 'POST':
-	password = request.POST['password']
-	name = request.POST['name']
+        password = request.POST['password']
+        name = request.POST['name']
         if password:
             user.set_password(password)
         if name:
@@ -104,5 +107,4 @@ def modifyMobileUser(request, num):
 def wrongUsername(request):
     return render_to_response(  "wrongUsername.html",
                                 locals(),
-				context_instance=RequestContext(request))
-
+                                context_instance=RequestContext(request))

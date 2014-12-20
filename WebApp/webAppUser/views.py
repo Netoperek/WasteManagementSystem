@@ -36,6 +36,15 @@ def addWebUser(request):
                                             locals(),
                                             context_instance=RequestContext(request))
 
+def user_exists(user_id):
+    users = WebAppUser.objects.all()
+    for user in users:
+        if user_id == user.user_id:
+            return True
+
+    return False
+    
+
 def webAppUsers(request):
 	webUsers = WebAppUser.objects.all()
 
@@ -52,19 +61,30 @@ def webAppUsers(request):
 		if request.method == 'POST':
 			Id = request.POST['id']
 			Login = request.POST['username']
-
 			if Login == None:
-				Login = r".*"
-
+		            Login = r".*"
 			if Id:
-				webUsers =  User.objects.filter(pk = Id,
-												username__regex=Login)
+		            webUsers = WebAppUser.objects.filter(pk = Id)
 			else:
-				webUsers =  User.objects.filter(username__regex=Login)
+		            users =  User.objects.filter(username__regex=Login)
+                            webUsers = []
+                            for user in users:
+                                if user_exists(user.id):
+                                    webUser = WebAppUser.objects.get(user_id = user.id)
+                                    webUsers.append(webUser)
+                            print webUsers
 
 	return render_to_response("webUsers.html",
                                    locals(),
 				   context_instance=RequestContext(request))
+
+def username_taken(username):
+    names = User.objects.all().values('username')
+    for ele in names:
+        if username in ele.values():
+            return True
+
+    return False
 
 #To use decorator request arg has to be passed
 #
@@ -77,17 +97,23 @@ def remove(request, q):
 
 @role_required(roles.admin)
 def modifyWebAppUser(request, num):
-    webUser =  User.objects.get(pk = num)
+    webUser = WebAppUser.objects.get(id = num)
+    user_id = webUser.user_id
+    user = User.objects.get(id = user_id)
     if request.method == 'POST':
 	role = request.POST['role']
 	name = request.POST['name']
 	password = request.POST['password']
-        if role:
-            setRole(webUser, role)
         if name:
+            if username_taken(name):
+                return HttpResponseRedirect('wrongUsernameWeb')
             webUser.username = name
+            user.username = name
+        if role:
+            setRole(user, role)
         if password:
-            webUser.set_password(password)
+            user.set_password(password)
+        user.save()
         webUser.save()
     
         return HttpResponseRedirect('webAppUsers')
@@ -95,3 +121,7 @@ def modifyWebAppUser(request, num):
     return render_to_response("modifyWebAppUser.html",
 			      locals(),
 			      context_instance=RequestContext(request))
+def wrongUsernameWeb(request):
+    return render_to_response(  "wrongUsernameWeb.html",
+                                locals(),
+				context_instance=RequestContext(request))

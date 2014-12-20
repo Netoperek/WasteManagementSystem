@@ -35,20 +35,22 @@
         			<tr>
         				<th>#</th>
         				<th>Data</th>
+                        <th>Nazwa</th>
                         <th>Mapa</th>
                         <th>Szczegóły trasy</th>
         			</tr>	
         		</thead>
         		<tbody>
-                {% for route in routes %}
+                {% for date, route in routesWithDate %}
                 <tr>
-         			<td>{{ route.id }}</td>
-					<td>{{ route.data }}</td>
+                    <td>{{ route|first }}</td>
+         			<td>{{ date }}</td>
+                    <td>{{ route|last }}</td>
                     <td>
-                        <a href="routeOnMap{{ route.id }}" class="btn btn-primary">Na mapie#{{ route.id }}</a>
+                        <a href="routeOnMap{{ route|first }}" class="btn btn-primary">Na mapie#{{ route|first }}</a>
                     </td>
                     <td>
-                        <a href="routeHistoryDetails{{ route.id }}" class="btn btn-primary">Szczegóły#{{ route.id }}</a>
+                        <a href="routeHistoryDetails{{ route|first }}" class="btn btn-primary">Szczegóły#{{ route|first }}</a>
                     </td>
         		</tr>
                 {% endfor %}

@@ -155,9 +155,20 @@ def trackMobileUser(request, num):
 
 def mobileUserHistory(request, num):
     mobileUser = MobileUser.objects.get(pk=num)
-    routeQuery = "select \"routes_route\".id, \"routes_route\".name, date  from \"routes_route\" inner join \"mobileUsersRoutes_mobileuserroute\" on (\"routes_route\".id = \"mobileUsersRoutes_mobileuserroute\".\"route_id\") where \"mobileUsersRoutes_mobileuserroute\".\"mobileUser_id\" =" +str(num)+"; "
+    routeQuery = "select \"routes_route\".id, \"routes_route\".name from \"routes_route\" inner join \"mobileUsersRoutes_mobileuserroute\" on (\"routes_route\".id = \"mobileUsersRoutes_mobileuserroute\".\"route_id\") where \"mobileUsersRoutes_mobileuserroute\".\"mobileUser_id\" =" +str(num)+"; "
     routes = Route.objects.raw(routeQuery)
+    mobileUserRoutesQuery = "select id, date from \"mobileUsersRoutes_mobileuserroute\" where \"mobileUsersRoutes_mobileuserroute\".\"mobileUser_id\" =" +str(num)+";"
+    mobileUserRoutes = MobileUserRoute.objects.raw(mobileUserRoutesQuery)
+    routesList = []
+    mobileUserRoutesList = []
 
+    for r in routes:
+        routesList.append([r.id, r.name])
+    for m in mobileUserRoutes:
+        mobileUserRoutesList.append(m.date.strftime('%Y-%m-%d'))
+    print mobileUserRoutesList
+    routesWithDate = dict(zip(mobileUserRoutesList, routesList)).items()
+    print routesWithDate
     return render_to_response("mobileUserHistory.html",
 								locals(),
 								context_instance=RequestContext(request))

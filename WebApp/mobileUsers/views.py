@@ -41,22 +41,39 @@ def mobileUsers(request):
             locals(),
             context_instance=RequestContext(request))
 
+def validate_user_data(data):
+    data_dict = dict(data.iterlists())
+    query_set = User.objects.values('username')
+    names = list(query_set)
+    pass1 = data['password1']
+    name = data['username']
+    pass2 = data['password2']
+    if pass1 != pass2:
+        return "Hasla nie pasuja"
+
+    for ele in names:
+        if ele['username'] == name:
+            return "Login zajety"
+
+    return ""
+
+
 @role_required(roles.admin)
 def addMobileUser(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        req = request.POST
+        form = UserCreationForm(req)
+        error_message = validate_user_data(req)
         if form.is_valid():
             new_user = form.save()
             set_user_role(new_user, roles.mobile)
             mobileUser = MobileUser(user = new_user, username = new_user.username)
             mobileUser.save()
-
             return HttpResponseRedirect('mobileUsers')
         else:
             return render_to_response("addMobileUser.html",
                                         locals(),
                                         context_instance=RequestContext(request))
-            
     else:
         form = UserCreationForm(request.POST)
         return render_to_response("addMobileUser.html",

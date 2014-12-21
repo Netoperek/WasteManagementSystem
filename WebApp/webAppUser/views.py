@@ -14,25 +14,42 @@ def setRole(user,role):
     else:
         set_user_role(user, roles.manager)
 
+def validate_user_data(data):
+    data_dict = dict(data.iterlists())
+    query_set = User.objects.values('username')
+    names = list(query_set)
+    pass1 = data['password1']
+    name = data['username']
+    pass2 = data['password2']
+    if pass1 != pass2:
+        return "Hasla nie pasuja"
+
+    for ele in names:
+        if ele['username'] == name:
+            return "Login zajety"
+
+    return ""
+
 @role_required(roles.admin)
 def addWebUser(request):
-	if request.method == 'POST':
-	        role = request.POST.get("role", "")
-		form = UserCreationForm(request.POST)
-		if form.is_valid():
-			new_user = form.save()
-                        setRole(new_user, role)
-                        webAppUser = WebAppUser(user = new_user)
-                        webAppUser.save()
-                        
-                        return HttpResponseRedirect('webAppUsers')
-                else:
-                        return render_to_response("addWebUser.html",
+    if request.method == 'POST':
+        req = request.POST
+        role = request.POST.get("role", "")
+        form = UserCreationForm(req)
+        error_message = validate_user_data(req)
+        if form.is_valid():
+            new_user = form.save()
+            setRole(new_user, role)
+            webAppUser = WebAppUser(user = new_user)
+            webAppUser.save()
+            return HttpResponseRedirect('webAppUsers')
+        else:
+            return render_to_response("addWebUser.html",
                                                     locals(),
                                                     context_instance=RequestContext(request))
-	else:
-		form = UserCreationForm(request.POST)
-                return render_to_response("addWebUser.html",
+    else:
+        form = UserCreationForm(request.POST)
+        return render_to_response("addWebUser.html",
                                             locals(),
                                             context_instance=RequestContext(request))
 

@@ -12,8 +12,22 @@
     <form method="POST" action=""> {% csrf_token %}
         <input type="radio" name="role" value="admin">Administrator<br>
         <input type="radio" name="role" value="manager" checked="checked">Menadżer<br>
-        {{ form.as_p }}
+        <b><p> Login </p></b>
+        {{ form.username }}
+        <br />
+        <br />
+        <b><p> Hasło </p></b>
+        {{ form.password1 }}
+        <br />
+        <br />
+        <b><p> Potwierdź Hasło </p></b>
+        {{ form.password2 }}
+        <br />
+        <br />
         <input type='submit' value = "Dodaj " class="btn btn-primary btn-lg">
+        <br />
+        <br />
+        <i><p> {{error_message}} </p></i>
     </form> 
 
     {% else %}

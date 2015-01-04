@@ -94,7 +94,10 @@ def routeOnMap(request, num):
 		lonsList.extend(lon.values())
 
 	for add in adds:
-		addsList.append(str(add.street)+' '+ str(add.number)+', '+str(add.postCode)+' '+ str(add.city))
+                city = str(add.city.encode('utf-8'))
+                street = str(add.street.encode('utf-8'))
+                postCode = str(add.postCode.encode('utf-8'))
+		addsList.append(street + ' '+ str(add.number) + ', ' + postCode + ' ' + city)
 
 	return render_to_response("routeOnMap.html",
 								locals(),

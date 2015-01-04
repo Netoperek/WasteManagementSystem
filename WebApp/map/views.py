@@ -19,7 +19,7 @@ def getAddress(point):
 	return point.split('#')[2]
 
 def getStreet(address):
-	return address.split(' ')[1][:-1]
+	return address.split(' ')[1]
 
 def getNumber(address):
 	return address.split(' ')[2][:-1]

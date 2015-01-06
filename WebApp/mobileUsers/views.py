@@ -10,6 +10,7 @@ from userroles.models import set_user_role
 from userroles import roles
 from userroles.decorators import role_required
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 def mobileUsers(request):
     mobileUsers = MobileUser.objects.all()

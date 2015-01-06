@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.shortcuts import render, render_to_response, RequestContext
 from django.http import HttpResponseRedirect, HttpRequest
 from .forms import MobileUserForm
@@ -49,11 +51,11 @@ def validate_user_data(data):
     name = data['username']
     pass2 = data['password2']
     if pass1 != pass2:
-        return "Hasla nie pasuja"
+        return "Hasła nie pasują"
 
     for ele in names:
         if ele['username'] == name:
-            return "Login zajety"
+            return "Login zajęty"
 
     return ""
 

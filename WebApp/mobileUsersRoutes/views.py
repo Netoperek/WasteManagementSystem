@@ -48,10 +48,18 @@ def mobileUsersRoutes(request, num):
 								context_instance=RequestContext(request))
 
 
-def passDate(request):
-	return render_to_response("passDate.html",
-				locals(),
-				context_instance=RequestContext(request))
+def passDate(request, num):
+    num
+    return render_to_response("passDate.html",
+                            locals(),
+                            context_instance=RequestContext(request))
+
+def validate(date_text):
+    try:
+        datetime.datetime.strptime(date_text, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
 
 
 def setRoute(request, num):
@@ -64,20 +72,22 @@ def setRoute(request, num):
             routeId = request.POST.get("_id")
         
         if MobileUserRoute.objects.filter(route_id = routeId):
-                notSet = False
+            notSet = False
         else:
-                mobileUser = MobileUser.objects.get(pk=num)
-                routes = Route.objects.all()
+            mobileUser = MobileUser.objects.get(pk=num)
+            routes = Route.objects.all()
 
         if _id:
-			date = request.POST['date']
-                        if date:
-                            route = Route.objects.get(pk=routeId)	
-                            mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
-                            mobileUserRoute.save()
-                            return HttpResponseRedirect('mobileUsersRoutes' + str(num))
-                        else:
-                            return HttpResponseRedirect('passDate')
+            date = request.POST['date']
+            if date:
+                if not validate(date):
+                    return HttpResponseRedirect('passDate' + str(num))
+                route = Route.objects.get(pk=routeId)	
+                mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)
+                mobileUserRoute.save()
+                return HttpResponseRedirect('mobileUsersRoutes' + str(num))
+            else:
+                return HttpResponseRedirect('passDate' + str(num))
 
 	return render_to_response("setRoute.html",
 				locals(),

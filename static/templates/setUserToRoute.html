@@ -62,6 +62,7 @@
               </tbody>
             </table>
           </div>
+          <input type="submit" value="Powrót" name="Powrót" class="btn btn-success" onClick="javascript:history.go(-1);">
           {% else %}
           <div class="page-header">
             <h1>Nie można przyporządkować tej trasy</h1>
@@ -70,6 +71,8 @@
           <div class="alert alert-warning">
             Ta trasa jest już przyporządkowana
           </div>
+
+          <input type="submit" value="Powrót" name="Powrót" class="btn btn-success" onClick="javascript:history.go(-1);">
 
           {% endif %}
         {% else %}

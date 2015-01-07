@@ -116,7 +116,9 @@
         function checkAddres(address){
           //19.91422101900193#50.06707138998097#ulica Miechowska 5, 30-055, Krakow, Woj. Malopolskie 
           var street = address.split(",")[0];
-          if( isNaN(street.split(" ")[2]) ) return false;
+          console.log("street " + street.split(' ').pop());
+          var nr = street.split(' ').pop();
+          if( isNaN(nr) ) return false;
           return true;
         }
 
@@ -183,6 +185,7 @@
 
           if ( geom !== undefined && checkAddres(address)) {
             map.centerAndZoom(geom, 12);
+            var address_to_push = address.split(' ')
             points.push(x+"#"+y+"#"+address);
           }else{
             --counter;

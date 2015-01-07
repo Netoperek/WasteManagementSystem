@@ -57,6 +57,7 @@ urlpatterns = patterns('',
         url(r'^passDate(?P<num>\d+)$','mobileUsersRoutes.views.passDate'),
 
 	#webAppUsers
+	url(r'^cannotRemove$', 'webAppUser.views.cannotRemove', name='cannotRemove'),
 	url(r'^wrongUsernameWeb$', 'webAppUser.views.wrongUsernameWeb', name='wrongUsernameWeb'),
 	url(r'^webAppUsers$', 'webAppUser.views.webAppUsers', name='webAppUsers'),
 	url(r'^modifyWebAppUser(?P<num>\d+)$', 'webAppUser.views.modifyWebAppUser', name='modifyWebAppUser'),

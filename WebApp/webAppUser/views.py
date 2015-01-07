@@ -68,6 +68,9 @@ def webAppUsers(request):
 	_id = request.POST.get("_id")
         _modify = request.POST.get('_modify')
 	if _id:
+            name = WebAppUser.objects.get(pk=_id)
+            if request.user.username == str(name):
+                return HttpResponseRedirect('cannotRemove')
             result = remove(request, _id)
             if result != True:
                 return HttpResponseRedirect('wrongPriviliges')
@@ -141,5 +144,10 @@ def modifyWebAppUser(request, num):
 			      context_instance=RequestContext(request))
 def wrongUsernameWeb(request):
     return render_to_response(  "wrongUsernameWeb.html",
+                                locals(),
+				context_instance=RequestContext(request))
+
+def cannotRemove(request):
+    return render_to_response(  "cannotRemove.html",
                                 locals(),
 				context_instance=RequestContext(request))

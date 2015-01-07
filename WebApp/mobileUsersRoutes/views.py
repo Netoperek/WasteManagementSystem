@@ -107,6 +107,8 @@ def setUserToRoute(request, num):
                 if _id:
 			date = request.POST['date']
                         if date:
+                            if not validate(date):
+                                return HttpResponseRedirect('passDate' + str(num))
                             route = Route.objects.get(pk=num)
                             mobileUser = MobileUser.objects.get(pk=int(_id.split('#')[1]))	
                             mobileUserRoute = MobileUserRoute(route = route, mobileUser = mobileUser, date = date)

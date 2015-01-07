@@ -13,15 +13,19 @@
         <div class="panel-heading">
           <h3 class="panel-title">Szukaj według wybranych atrybutów</h3>
           </div>
-          <form id="login_form" method="post" action="mobileUsersRoutes{{userId}}">
+          <form id="login_form" method="post" action="setRoute{{user_id}}">
       {% csrf_token %}
           <div class="table-responsive">
               <table class="table table-striped">
               <thead>
-                  <th>Data wykonania (rrrr-mm-dd):</th>
+                  <th>#</th>
+                  <th>Nazwa</th>
+                  <th>Szukaj</th>
               </thead> 
               <tbody>
-                  <td><input type="text" name="doDate" value="" size="30" /></td>    
+                  <td><input type="number" name="Id" value="" size="10" /> </td>
+                  <td><input type="text" name="Name" value="" size="10" /></td>
+                  <td><input type="submit" value="Szukaj" class="btn btn-primary"/></span></td>
               </tbody>
           </table>
         </div>

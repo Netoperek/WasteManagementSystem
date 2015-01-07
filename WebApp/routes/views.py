@@ -28,31 +28,29 @@ def routes(request):
 		Route.objects.filter(id=_id).delete()
 
 	else:
-		if request.method == 'POST':
-			Id = request.POST['Id']
-			Name = request.POST['Name']
-                        routesSet = request.POST.get("set","")
+            if request.method == 'POST':
+                Id = request.POST['Id']
+                Name = request.POST['Name']
+                routesSet = request.POST.get("set","")
 
-			if Name == None:
-				Name = r".*"
+                if Name == None:
+                    Name = r".*"
+                if Id:
+                    routes =  Route.objects.filter(pk = Id, name__regex=Name)
+                else:
+                    routes =  Route.objects.filter(name__regex=Name)
 
-			if Id:
-				routes =  Route.objects.filter(pk = Id,
-												name__regex=Name)
-			else:
-				routes =  Route.objects.filter(name__regex=Name)
-
-                        for route in routes:
-                            mobileUserRoutes = MobileUserRoute.objects.filter(route_id = route.id)
-                            if not mobileUserRoutes:
-                                routesNotSet.append(route)
-                            else:
-                                setRoutes.append(route)
-                      
-                        if routesSet == "set":
-                                routes = routesNotSet
-                        elif routesSet == "unset":
-                                routes = setRoutes
+                for route in routes:
+                    mobileUserRoutes = MobileUserRoute.objects.filter(route_id = route.id)
+                    if not mobileUserRoutes:
+                        routesNotSet.append(route)
+                    else:
+                        setRoutes.append(route)
+              
+                if routesSet == "set":
+                        routes = routesNotSet
+                elif routesSet == "unset":
+                        routes = setRoutes
                                 
 
 

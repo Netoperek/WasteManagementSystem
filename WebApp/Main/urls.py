@@ -42,7 +42,6 @@ urlpatterns = patterns('',
 	url(r'^modifyMobileUser(?P<num>\d+)$', 'mobileUsers.views.modifyMobileUser', name='modifyMobileUser'),
 
 	#routes
-	url(r'^routes$', 'routes.views.routes', name='routes'),
 	url(r'^newRoute$', 'map.views.newRoute', name='newRoute'),
 	url(r'^routes$', 'routes.views.routes', name='routes'),
 	url(r'^routeDetails(?P<num>\d+)$', 'routes.views.routeDetails', name='routeDetails'),

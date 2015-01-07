@@ -8,13 +8,19 @@ from trackingPoints.models import TrackingPoint
 
 def trackAll(request):
         routesCount = TrackingRoute.objects.count()
+        print routesCount
         trackingRoutes = TrackingRoute.objects.all()
         routesLat = []
         routesLon = []
+        usersList = []
+        users = []
 
         for trackingRoute in trackingRoutes:
             lats = TrackingPoint.objects.filter(trackingRoute=trackingRoute.id).values('latitude')
             lons = TrackingPoint.objects.filter(trackingRoute=trackingRoute.id).values('longitude')
+            _userId = MobileUserRoute.objects.filter(trackingRoute_id=trackingRoute.id).values('mobileUser_id')
+            _user = MobileUser.objects.filter(id=_userId)
+            usersList.extend(_user.values())
 
             latsList = []
             lonsList = []
@@ -28,6 +34,9 @@ def trackAll(request):
             
             routesLat.append(latsList)
             routesLon.append(lonsList)
+
+        for ele in usersList:
+            users.append(str(ele['username']))
 
 	context = RequestContext(request)
 	return render_to_response("trackAll.html",

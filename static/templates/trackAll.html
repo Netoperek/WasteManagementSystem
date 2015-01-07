@@ -76,13 +76,15 @@
           var rCount = {{routesCount|safe}} ;
           var rLat = {{routesLat|safe}} ;
           var rLon = {{routesLon|safe}} ;
+          var rUsers = {{users|safe}} ;
 
           for(var i = 0; i < rCount; i++){
-            showLocation(rLat[i], rLon[i])
+            console.log("YERE!!!0 " + rUsers[i]);
+            showLocation(rLat[i], rLon[i], rUsers[i])
           } 
         }
 
-        function showLocation(lats, longs) {
+        function showLocation(lats, longs, user) {
           //zoom to the users location and add a graphic
           var pt;
           var points = [];
@@ -94,7 +96,7 @@
          for(var i = 0; i < lats.length; i++){
             pt = new Point(lats[i], longs[i]);
 
-            addGraphic(pt, (i+1), color);
+            addGraphic(pt, (i+1), color, user);
             points.push(pt);
 
           }
@@ -107,7 +109,7 @@
           map.centerAt(pt);
         }
         
-        function addGraphic(pt, number, color){
+        function addGraphic(pt, number, color, user){
           var font = new Font(
             "10pt",
             Font.STYLE_NORMAL, 
@@ -115,6 +117,12 @@
             Font.WEIGHT_BOLD,
             "Helvetica"
           );
+
+          var infoTemplate = new InfoTemplate("Lokalizacja");
+          
+          var attributes = { 
+            użytkownik: user
+          };   
 
           var textSymbol = new esri.symbol.TextSymbol("#"+number);
           textSymbol.setFont(font);
@@ -125,7 +133,7 @@
           var symbol = new SimpleMarkerSymbol();
           symbol.setStyle(SimpleMarkerSymbol.STYLE_DIAMOND);
           symbol.setColor(color);
-          graphic = new Graphic(pt, symbol);
+          graphic = new Graphic(pt, symbol, attributes, infoTemplate);
           map.graphics.add(graphic);
         }
       });
